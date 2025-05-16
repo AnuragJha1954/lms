@@ -33,7 +33,8 @@ from .serializers import (
     SubjectCompletionSerializer, 
     IncompleteTopicSerializer, 
     SubjectSerializer, 
-    ChapterWithTopicsSerializer
+    ChapterWithTopicsSerializer,
+    SubjectDashboardResponseSerializer
 )
 
 
@@ -42,7 +43,7 @@ from .serializers import (
     operation_summary="Get Student Profile",
     operation_description="Retrieve the student profile by user ID. Only the user themselves can access.",
     responses={
-        200: openapi.Response('Student profile retrieved', StudentProfileSerializer),
+        200: openapi.Response('Student profile retrieved', StudentProfileSerializer()),
         403: 'Permission denied',
         404: 'Student profile not found',
     },
@@ -93,9 +94,9 @@ def get_student_profile(request, user_id):
     method='post',
     operation_summary="Create Student Profile",
     operation_description="Create a student profile for the given user ID.",
-    request_body=StudentProfileSerializer,
+    request_body=StudentProfileSerializer(),
     responses={
-        201: openapi.Response('Student profile created', StudentProfileSerializer),
+        201: openapi.Response('Student profile created', StudentProfileSerializer()),
         400: 'Invalid input',
         403: 'Permission denied',
         404: 'StudentSchool not found',
@@ -151,9 +152,9 @@ def create_student_profile(request, user_id):
     method='put',
     operation_summary="Update Student Profile",
     operation_description="Update the student profile for the given user ID.",
-    request_body=StudentProfileSerializer,
+    request_body=StudentProfileSerializer(),
     responses={
-        200: openapi.Response('Student profile updated', StudentProfileSerializer),
+        200: openapi.Response('Student profile updated', StudentProfileSerializer()),
         400: 'Invalid input',
         403: 'Permission denied',
         404: 'Student profile not found',
@@ -256,13 +257,7 @@ def delete_student_profile(request, user_id):
     responses={
         200: openapi.Response(
             'Dashboard data',
-            openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'subjects': openapi.Schema(type=openapi.TYPE_ARRAY, items=SubjectCompletionSerializer),
-                    'recent_incomplete_topics': openapi.Schema(type=openapi.TYPE_ARRAY, items=IncompleteTopicSerializer),
-                }
-            )
+            schema=SubjectDashboardResponseSerializer()  # ✅ Create a wrapper serializer for the response
         ),
         401: 'Token missing or unauthorized',
         404: 'Student or class not found',
@@ -291,6 +286,7 @@ def delete_student_profile(request, user_id):
         ),
     ]
 )
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def student_dashboard(request, user_id, account_type):

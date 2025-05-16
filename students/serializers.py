@@ -110,3 +110,12 @@ class ChapterWithTopicsSerializer(serializers.ModelSerializer):
         return TopicWithProgressSerializer(topics, many=True, context={'user': user}).data
 
 
+
+
+
+
+class SubjectDashboardResponseSerializer(serializers.Serializer):
+    subjects = SubjectCompletionSerializer(many=True)
+    recent_incomplete_topics = IncompleteTopicSerializer(many=True)
+
+

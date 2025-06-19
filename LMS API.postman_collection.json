@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "61b5e7ce-c8a6-48a3-b36d-5b3ce0814aaf",
+		"_postman_id": "6d4a14bf-5b13-4c4e-a114-e7570593a423",
 		"name": "LMS API",
 		"description": "Comprehensive API documentation for the LMS project.\n\nContact Support:\n Email: work.threepointdev@gmail.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -21,15 +21,11 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"email\": \"d3kHPZ3sGG0@axoVYuwlGYyhtgNTs.ah\",\n  \"password\": \"qui mollit\"\n}",
+									"raw": "{\n  \"email\": \"P9kPqjQHuue@wRcY.ba\",\n  \"password\": \"nulla aute aliquip\",\n  \"role\": \"amet dolor mollit officia\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -48,7 +44,7 @@
 										""
 									]
 								},
-								"description": "Authenticate user and get token along with user details."
+								"description": "Authenticate user and return token and profile."
 							},
 							"response": [
 								{
@@ -61,10 +57,6 @@
 												"value": "application/json"
 											},
 											{
-												"key": "Accept",
-												"value": "application/json"
-											},
-											{
 												"key": "Authorization",
 												"value": "Basic <credentials>",
 												"description": "Added as a part of security scheme: basic"
@@ -72,7 +64,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"email\": \"d3kHPZ3sGG0@axoVYuwlGYyhtgNTs.ah\",\n  \"password\": \"qui mollit\"\n}",
+											"raw": "{\n  \"email\": \"P9kPqjQHuue@wRcY.ba\",\n  \"password\": \"nulla aute aliquip\",\n  \"role\": \"amet dolor mollit officia\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -94,18 +86,13 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
+									"_postman_previewlanguage": "text",
+									"header": [],
 									"cookie": [],
-									"body": "{\n  \"token\": \"quis\",\n  \"user\": {\n    \"id\": 51911840,\n    \"email\": \"eu\",\n    \"role\": \"deserunt tempor ut\",\n    \"account_type\": \"Ut ut tempor id\",\n    \"name\": \"ipsum dol\"\n  }\n}"
+									"body": ""
 								},
 								{
-									"name": "Invalid credentials or input",
+									"name": "Invalid credentials",
 									"originalRequest": {
 										"method": "POST",
 										"header": [
@@ -121,7 +108,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"email\": \"d3kHPZ3sGG0@axoVYuwlGYyhtgNTs.ah\",\n  \"password\": \"qui mollit\"\n}",
+											"raw": "{\n  \"email\": \"P9kPqjQHuue@wRcY.ba\",\n  \"password\": \"nulla aute aliquip\",\n  \"role\": \"amet dolor mollit officia\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -171,7 +158,7 @@
 										""
 									]
 								},
-								"description": "Invalidate the current token to logout the user."
+								"description": "Invalidate the current token."
 							},
 							"response": [
 								{
@@ -245,12 +232,7 @@
 							"name": "Refresh Token",
 							"request": {
 								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
+								"header": [],
 								"url": {
 									"raw": "{{baseUrl}}/auth/refresh-token/",
 									"host": [
@@ -262,18 +244,14 @@
 										""
 									]
 								},
-								"description": "Refresh the authentication token."
+								"description": "Refresh the user's auth token."
 							},
 							"response": [
 								{
-									"name": "New token generated",
+									"name": "New token issued",
 									"originalRequest": {
 										"method": "POST",
 										"header": [
-											{
-												"key": "Accept",
-												"value": "application/json"
-											},
 											{
 												"key": "Authorization",
 												"value": "Basic <credentials>",
@@ -294,15 +272,10 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
+									"_postman_previewlanguage": "text",
+									"header": [],
 									"cookie": [],
-									"body": "{\n  \"token\": \"quis\"\n}"
+									"body": ""
 								},
 								{
 									"name": "Unauthorized",
@@ -341,18 +314,18 @@
 			]
 		},
 		{
-			"name": "content",
+			"name": "school",
 			"item": [
 				{
-					"name": "{content_id}",
+					"name": "class",
 					"item": [
 						{
-							"name": "complete",
+							"name": "add",
 							"item": [
 								{
-									"name": "Mark Content as Completed",
+									"name": "school class add create",
 									"request": {
-										"method": "PUT",
+										"method": "POST",
 										"header": [
 											{
 												"key": "Content-Type",
@@ -361,7 +334,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"completed\": false\n}",
+											"raw": "{\n  \"school_id\": -9961845,\n  \"class_name\": \"eu nulla\",\n  \"section\": \"anim\",\n  \"academic_year\": \"eiusmod enim\",\n  \"subjects\": [\n    {\n      \"name\": \"dolore fugiat Excepteur sint\",\n      \"code\": \"tempor eu cupi\",\n      \"description\": \"laborum ad consequat proident do\"\n    },\n    {\n      \"name\": \"sit\",\n      \"code\": \"eu moll\",\n      \"description\": \"Duis deserunt officia\"\n    }\n  ]\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -370,31 +343,23 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/content/:content_id/complete/",
+											"raw": "{{baseUrl}}/school/class/add/",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
-												"content",
-												":content_id",
-												"complete",
+												"school",
+												"class",
+												"add",
 												""
-											],
-											"variable": [
-												{
-													"key": "content_id",
-													"value": "-9298298",
-													"description": "(Required) ID of the content to mark as completed"
-												}
 											]
-										},
-										"description": "Mark a specific content item as completed by the student."
+										}
 									},
 									"response": [
 										{
-											"name": "Content marked as completed",
+											"name": "Class and subjects created",
 											"originalRequest": {
-												"method": "PUT",
+												"method": "POST",
 												"header": [
 													{
 														"key": "Content-Type",
@@ -408,7 +373,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"completed\": false\n}",
+													"raw": "{\n  \"school_id\": -9961845,\n  \"class_name\": \"eu nulla\",\n  \"section\": \"anim\",\n  \"academic_year\": \"eiusmod enim\",\n  \"subjects\": [\n    {\n      \"name\": \"dolore fugiat Excepteur sint\",\n      \"code\": \"tempor eu cupi\",\n      \"description\": \"laborum ad consequat proident do\"\n    },\n    {\n      \"name\": \"sit\",\n      \"code\": \"eu moll\",\n      \"description\": \"Duis deserunt officia\"\n    }\n  ]\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -417,19 +382,1572 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/content/:content_id/complete/",
+													"raw": "{{baseUrl}}/school/class/add/",
 													"host": [
 														"{{baseUrl}}"
 													],
 													"path": [
-														"content",
-														":content_id",
-														"complete",
+														"school",
+														"class",
+														"add",
+														""
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Bad request",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Basic <credentials>",
+														"description": "Added as a part of security scheme: basic"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"school_id\": -9961845,\n  \"class_name\": \"eu nulla\",\n  \"section\": \"anim\",\n  \"academic_year\": \"eiusmod enim\",\n  \"subjects\": [\n    {\n      \"name\": \"dolore fugiat Excepteur sint\",\n      \"code\": \"tempor eu cupi\",\n      \"description\": \"laborum ad consequat proident do\"\n    },\n    {\n      \"name\": \"sit\",\n      \"code\": \"eu moll\",\n      \"description\": \"Duis deserunt officia\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/school/class/add/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"school",
+														"class",
+														"add",
+														""
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "assign-student",
+							"item": [
+								{
+									"name": "school class assign-student create",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"student_id\": 85568784,\n  \"class_id\": 10488985\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/school/class/assign-student/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"school",
+												"class",
+												"assign-student",
+												""
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Student assigned to class",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Basic <credentials>",
+														"description": "Added as a part of security scheme: basic"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"student_id\": 85568784,\n  \"class_id\": 10488985\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/school/class/assign-student/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"school",
+														"class",
+														"assign-student",
+														""
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Bad request",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Basic <credentials>",
+														"description": "Added as a part of security scheme: basic"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"student_id\": 85568784,\n  \"class_id\": 10488985\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/school/class/assign-student/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"school",
+														"class",
+														"assign-student",
+														""
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "profile",
+					"item": [
+						{
+							"name": "school profile list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/school/profile/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"school",
+										"profile",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Untitled Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/school/profile/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"school",
+												"profile",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"name\": \"elit veniam in est\",\n  \"address\": \"nulla adipisicing dolore\",\n  \"phone_number\": \"commodo est in\",\n  \"id\": 25115459,\n  \"registration_number\": \"sit non proident\",\n  \"board_affiliation\": \"in do qui esse\",\n  \"principal_name\": \"sint\",\n  \"established_year\": -84568361,\n  \"website\": \"https://IYTwanLtLGDmItowXhlODXJITR.irVAxWh\",\n  \"logo\": \"https://HKrODf.uzeeEaV2+gzksdvKZ,p-PTLRMAl4,UpuGcqX,rscxpYV5QKg46K1AtGDsHOuICXiNiq3nI-0\"\n}"
+								}
+							]
+						},
+						{
+							"name": "school profile update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"dolor fugiat laborum in labore\",\n  \"address\": \"velit\",\n  \"phone_number\": \"aliqua et c\",\n  \"board_affiliation\": \"ea co\",\n  \"principal_name\": \"Ut proident\",\n  \"established_year\": -29687224,\n  \"website\": \"http://tdYjmtdQCgGqWLZMNJQkQo.hjN.c2kuaKavXU,5m1DYH2-OmoGvTYjd,vOakvuuzbII\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/school/profile/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"school",
+										"profile",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Untitled Response",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"dolor fugiat laborum in labore\",\n  \"address\": \"velit\",\n  \"phone_number\": \"aliqua et c\",\n  \"board_affiliation\": \"ea co\",\n  \"principal_name\": \"Ut proident\",\n  \"established_year\": -29687224,\n  \"website\": \"http://tdYjmtdQCgGqWLZMNJQkQo.hjN.c2kuaKavXU,5m1DYH2-OmoGvTYjd,vOakvuuzbII\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/school/profile/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"school",
+												"profile",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"name\": \"elit veniam in est\",\n  \"address\": \"nulla adipisicing dolore\",\n  \"phone_number\": \"commodo est in\",\n  \"id\": 25115459,\n  \"registration_number\": \"sit non proident\",\n  \"board_affiliation\": \"in do qui esse\",\n  \"principal_name\": \"sint\",\n  \"established_year\": -84568361,\n  \"website\": \"https://IYTwanLtLGDmItowXhlODXJITR.irVAxWh\",\n  \"logo\": \"https://HKrODf.uzeeEaV2+gzksdvKZ,p-PTLRMAl4,UpuGcqX,rscxpYV5QKg46K1AtGDsHOuICXiNiq3nI-0\"\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"dolor fugiat laborum in labore\",\n  \"address\": \"velit\",\n  \"phone_number\": \"aliqua et c\",\n  \"board_affiliation\": \"ea co\",\n  \"principal_name\": \"Ut proident\",\n  \"established_year\": -29687224,\n  \"website\": \"http://tdYjmtdQCgGqWLZMNJQkQo.hjN.c2kuaKavXU,5m1DYH2-OmoGvTYjd,vOakvuuzbII\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/school/profile/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"school",
+												"profile",
+												""
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "register",
+					"item": [
+						{
+							"name": "school register create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"full_name\": \"deserunt enim in aliqua\",\n  \"username\": \"id eu aute ex\",\n  \"email\": \"cp7@gUzXGZJPaGumLDeWqwXKBlGGZPdTomish.ppy\",\n  \"name\": \"laborum esse\",\n  \"address\": \"dolor\",\n  \"phone_number\": \"minim r\",\n  \"registration_number\": \"eiusmod dolor\",\n  \"board_affiliation\": \"ea do\",\n  \"principal_name\": \"ad sed do fugiat in\",\n  \"established_year\": 80446958,\n  \"website\": \"https://lwlZecidaKpergiiOOZhYdbT.lrsVXfSuSLS83RtxmsPRpTbKbgjL2hSlHYQcROmOuG6wn9POYkepBh8y24zBZYpP79Y5\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/school/register/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"school",
+										"register",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "School created successfully",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"full_name\": \"deserunt enim in aliqua\",\n  \"username\": \"id eu aute ex\",\n  \"email\": \"cp7@gUzXGZJPaGumLDeWqwXKBlGGZPdTomish.ppy\",\n  \"name\": \"laborum esse\",\n  \"address\": \"dolor\",\n  \"phone_number\": \"minim r\",\n  \"registration_number\": \"eiusmod dolor\",\n  \"board_affiliation\": \"ea do\",\n  \"principal_name\": \"ad sed do fugiat in\",\n  \"established_year\": 80446958,\n  \"website\": \"https://lwlZecidaKpergiiOOZhYdbT.lrsVXfSuSLS83RtxmsPRpTbKbgjL2hSlHYQcROmOuG6wn9POYkepBh8y24zBZYpP79Y5\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/school/register/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"school",
+												"register",
+												""
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"full_name\": \"sunt laborum reprehenderit\",\n  \"username\": \"do\",\n  \"email\": \"iXpUlyNED11@ZCldtdkFirdmiVxdvEYsuC.scan\",\n  \"name\": \"in deserunt\",\n  \"address\": \"et reprehenderit\",\n  \"phone_number\": \"Ut qui \",\n  \"registration_number\": \"enim in voluptate\",\n  \"board_affiliation\": \"ut occaecat aliqua dolore\",\n  \"principal_name\": \"cupidatat esse\",\n  \"established_year\": -35650492,\n  \"website\": \"http://HenAsDNubirYnytiXkIOpwwCWQbWOpClq.mgBpIFzRtt,PCjaLDGeb8do+TzWnvWb6WVgdpVmspFb-xHxWfC\",\n  \"logo\": \"https://dhXeUfcfosggSWhDHGfKIjOQhrgicT.qnmFPNIJt6PFP+iBafCYtZEFNKz24BLsiwP9i,gdb9v4SfsYjjNfxhx-bJOxORzBkjM\"\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"full_name\": \"deserunt enim in aliqua\",\n  \"username\": \"id eu aute ex\",\n  \"email\": \"cp7@gUzXGZJPaGumLDeWqwXKBlGGZPdTomish.ppy\",\n  \"name\": \"laborum esse\",\n  \"address\": \"dolor\",\n  \"phone_number\": \"minim r\",\n  \"registration_number\": \"eiusmod dolor\",\n  \"board_affiliation\": \"ea do\",\n  \"principal_name\": \"ad sed do fugiat in\",\n  \"established_year\": 80446958,\n  \"website\": \"https://lwlZecidaKpergiiOOZhYdbT.lrsVXfSuSLS83RtxmsPRpTbKbgjL2hSlHYQcROmOuG6wn9POYkepBh8y24zBZYpP79Y5\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/school/register/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"school",
+												"register",
+												""
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "subject",
+					"item": [
+						{
+							"name": "assign-teacher",
+							"item": [
+								{
+									"name": "school subject assign-teacher create",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"teacher_id\": 63069446,\n  \"subject_id\": -76798629\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/school/subject/assign-teacher/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"school",
+												"subject",
+												"assign-teacher",
+												""
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Teacher assigned to subject",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Basic <credentials>",
+														"description": "Added as a part of security scheme: basic"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"teacher_id\": 63069446,\n  \"subject_id\": -76798629\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/school/subject/assign-teacher/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"school",
+														"subject",
+														"assign-teacher",
+														""
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Bad request",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Basic <credentials>",
+														"description": "Added as a part of security scheme: basic"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"teacher_id\": 63069446,\n  \"subject_id\": -76798629\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/school/subject/assign-teacher/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"school",
+														"subject",
+														"assign-teacher",
+														""
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "{school_id}",
+					"item": [
+						{
+							"name": "students",
+							"item": [
+								{
+									"name": "{student_id}",
+									"item": [
+										{
+											"name": "delete",
+											"item": [
+												{
+													"name": "school students delete delete",
+													"request": {
+														"method": "DELETE",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/school/:school_id/students/:student_id/delete/",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"school",
+																":school_id",
+																"students",
+																":student_id",
+																"delete",
+																""
+															],
+															"variable": [
+																{
+																	"key": "school_id",
+																	"value": "anim deserunt ad",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "student_id",
+																	"value": "anim deserunt ad",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "Untitled Response",
+															"originalRequest": {
+																"method": "DELETE",
+																"header": [
+																	{
+																		"key": "Authorization",
+																		"value": "Basic <credentials>",
+																		"description": "Added as a part of security scheme: basic"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/school/:school_id/students/:student_id/delete/",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"school",
+																		":school_id",
+																		"students",
+																		":student_id",
+																		"delete",
+																		""
+																	],
+																	"variable": [
+																		{
+																			"key": "school_id"
+																		},
+																		{
+																			"key": "student_id"
+																		}
+																	]
+																}
+															},
+															"status": "No Content",
+															"code": 204,
+															"_postman_previewlanguage": "text",
+															"header": [],
+															"cookie": [],
+															"body": ""
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "update",
+											"item": [
+												{
+													"name": "school students update update",
+													"request": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"full_name\": \"Excepteur quis\",\n  \"username\": \"quis qui dolor minim\",\n  \"email\": \"87RC9T0TmP@ZCBtxZbMFdizFQUulaRcN.ews\",\n  \"roll_number\": \"proident\",\n  \"guardian_name\": \"dolor adipisicing Duis sed exercitation\",\n  \"contact_number\": \"laborum\",\n  \"class_id\": 41129473,\n  \"date_of_birth\": \"2002-03-09\",\n  \"gender\": \"male\",\n  \"address\": \"nostrud dolor exercitation do\",\n  \"admission_date\": \"2013-02-19\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/school/:school_id/students/:student_id/update/",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"school",
+																":school_id",
+																"students",
+																":student_id",
+																"update",
+																""
+															],
+															"variable": [
+																{
+																	"key": "school_id",
+																	"value": "anim deserunt ad",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "student_id",
+																	"value": "anim deserunt ad",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "Student updated successfully.",
+															"originalRequest": {
+																"method": "PUT",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Authorization",
+																		"value": "Basic <credentials>",
+																		"description": "Added as a part of security scheme: basic"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"full_name\": \"Excepteur quis\",\n  \"username\": \"quis qui dolor minim\",\n  \"email\": \"87RC9T0TmP@ZCBtxZbMFdizFQUulaRcN.ews\",\n  \"roll_number\": \"proident\",\n  \"guardian_name\": \"dolor adipisicing Duis sed exercitation\",\n  \"contact_number\": \"laborum\",\n  \"class_id\": 41129473,\n  \"date_of_birth\": \"2002-03-09\",\n  \"gender\": \"male\",\n  \"address\": \"nostrud dolor exercitation do\",\n  \"admission_date\": \"2013-02-19\"\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/school/:school_id/students/:student_id/update/",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"school",
+																		":school_id",
+																		"students",
+																		":student_id",
+																		"update",
+																		""
+																	],
+																	"variable": [
+																		{
+																			"key": "school_id"
+																		},
+																		{
+																			"key": "student_id"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [],
+															"cookie": [],
+															"body": ""
+														},
+														{
+															"name": "Student not found.",
+															"originalRequest": {
+																"method": "PUT",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Authorization",
+																		"value": "Basic <credentials>",
+																		"description": "Added as a part of security scheme: basic"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"full_name\": \"Excepteur quis\",\n  \"username\": \"quis qui dolor minim\",\n  \"email\": \"87RC9T0TmP@ZCBtxZbMFdizFQUulaRcN.ews\",\n  \"roll_number\": \"proident\",\n  \"guardian_name\": \"dolor adipisicing Duis sed exercitation\",\n  \"contact_number\": \"laborum\",\n  \"class_id\": 41129473,\n  \"date_of_birth\": \"2002-03-09\",\n  \"gender\": \"male\",\n  \"address\": \"nostrud dolor exercitation do\",\n  \"admission_date\": \"2013-02-19\"\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/school/:school_id/students/:student_id/update/",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"school",
+																		":school_id",
+																		"students",
+																		":student_id",
+																		"update",
+																		""
+																	],
+																	"variable": [
+																		{
+																			"key": "school_id"
+																		},
+																		{
+																			"key": "student_id"
+																		}
+																	]
+																}
+															},
+															"status": "Not Found",
+															"code": 404,
+															"_postman_previewlanguage": "text",
+															"header": [],
+															"cookie": [],
+															"body": ""
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "teachers",
+							"item": [
+								{
+									"name": "{teacher_id}",
+									"item": [
+										{
+											"name": "delete",
+											"item": [
+												{
+													"name": "school teachers delete delete",
+													"request": {
+														"method": "DELETE",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/school/:school_id/teachers/:teacher_id/delete/",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"school",
+																":school_id",
+																"teachers",
+																":teacher_id",
+																"delete",
+																""
+															],
+															"variable": [
+																{
+																	"key": "school_id",
+																	"value": "anim deserunt ad",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "teacher_id",
+																	"value": "anim deserunt ad",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "Untitled Response",
+															"originalRequest": {
+																"method": "DELETE",
+																"header": [
+																	{
+																		"key": "Authorization",
+																		"value": "Basic <credentials>",
+																		"description": "Added as a part of security scheme: basic"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/school/:school_id/teachers/:teacher_id/delete/",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"school",
+																		":school_id",
+																		"teachers",
+																		":teacher_id",
+																		"delete",
+																		""
+																	],
+																	"variable": [
+																		{
+																			"key": "school_id"
+																		},
+																		{
+																			"key": "teacher_id"
+																		}
+																	]
+																}
+															},
+															"status": "No Content",
+															"code": 204,
+															"_postman_previewlanguage": "text",
+															"header": [],
+															"cookie": [],
+															"body": ""
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "update",
+											"item": [
+												{
+													"name": "school teachers update update",
+													"request": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"full_name\": \"et aliqua\",\n  \"username\": \"sit sunt elit Excepteur\",\n  \"email\": \"U83fHRW@GZUxamvrkqFuYRWx.sddi\",\n  \"subject_specialization\": \"exercitation adipisicing\",\n  \"phone_number\": \"ea do\",\n  \"qualification\": \"ea elit Ut\",\n  \"assigned_class_ids\": [\n    -15361429,\n    49134594\n  ],\n  \"date_of_birth\": \"2010-10-16\",\n  \"gender\": \"female\",\n  \"address\": \"ex tempor i\",\n  \"experience_years\": 57824704\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/school/:school_id/teachers/:teacher_id/update/",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"school",
+																":school_id",
+																"teachers",
+																":teacher_id",
+																"update",
+																""
+															],
+															"variable": [
+																{
+																	"key": "school_id",
+																	"value": "anim deserunt ad",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "teacher_id",
+																	"value": "anim deserunt ad",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "Teacher updated",
+															"originalRequest": {
+																"method": "PUT",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Authorization",
+																		"value": "Basic <credentials>",
+																		"description": "Added as a part of security scheme: basic"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"full_name\": \"et aliqua\",\n  \"username\": \"sit sunt elit Excepteur\",\n  \"email\": \"U83fHRW@GZUxamvrkqFuYRWx.sddi\",\n  \"subject_specialization\": \"exercitation adipisicing\",\n  \"phone_number\": \"ea do\",\n  \"qualification\": \"ea elit Ut\",\n  \"assigned_class_ids\": [\n    -15361429,\n    49134594\n  ],\n  \"date_of_birth\": \"2010-10-16\",\n  \"gender\": \"female\",\n  \"address\": \"ex tempor i\",\n  \"experience_years\": 57824704\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/school/:school_id/teachers/:teacher_id/update/",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"school",
+																		":school_id",
+																		"teachers",
+																		":teacher_id",
+																		"update",
+																		""
+																	],
+																	"variable": [
+																		{
+																			"key": "school_id"
+																		},
+																		{
+																			"key": "teacher_id"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [],
+															"cookie": [],
+															"body": ""
+														},
+														{
+															"name": "Not Found",
+															"originalRequest": {
+																"method": "PUT",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Authorization",
+																		"value": "Basic <credentials>",
+																		"description": "Added as a part of security scheme: basic"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"full_name\": \"et aliqua\",\n  \"username\": \"sit sunt elit Excepteur\",\n  \"email\": \"U83fHRW@GZUxamvrkqFuYRWx.sddi\",\n  \"subject_specialization\": \"exercitation adipisicing\",\n  \"phone_number\": \"ea do\",\n  \"qualification\": \"ea elit Ut\",\n  \"assigned_class_ids\": [\n    -15361429,\n    49134594\n  ],\n  \"date_of_birth\": \"2010-10-16\",\n  \"gender\": \"female\",\n  \"address\": \"ex tempor i\",\n  \"experience_years\": 57824704\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/school/:school_id/teachers/:teacher_id/update/",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"school",
+																		":school_id",
+																		"teachers",
+																		":teacher_id",
+																		"update",
+																		""
+																	],
+																	"variable": [
+																		{
+																			"key": "school_id"
+																		},
+																		{
+																			"key": "teacher_id"
+																		}
+																	]
+																}
+															},
+															"status": "Not Found",
+															"code": 404,
+															"_postman_previewlanguage": "text",
+															"header": [],
+															"cookie": [],
+															"body": ""
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "students",
+			"item": [
+				{
+					"name": "create",
+					"item": [
+						{
+							"name": "students create create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"full_name\": \"Excepteur quis\",\n  \"username\": \"quis qui dolor minim\",\n  \"email\": \"87RC9T0TmP@ZCBtxZbMFdizFQUulaRcN.ews\",\n  \"roll_number\": \"proident\",\n  \"guardian_name\": \"dolor adipisicing Duis sed exercitation\",\n  \"contact_number\": \"laborum\",\n  \"class_id\": 41129473,\n  \"date_of_birth\": \"2002-03-09\",\n  \"gender\": \"male\",\n  \"address\": \"nostrud dolor exercitation do\",\n  \"admission_date\": \"2013-02-19\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/students/create/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"students",
+										"create",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Student created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"full_name\": \"Excepteur quis\",\n  \"username\": \"quis qui dolor minim\",\n  \"email\": \"87RC9T0TmP@ZCBtxZbMFdizFQUulaRcN.ews\",\n  \"roll_number\": \"proident\",\n  \"guardian_name\": \"dolor adipisicing Duis sed exercitation\",\n  \"contact_number\": \"laborum\",\n  \"class_id\": 41129473,\n  \"date_of_birth\": \"2002-03-09\",\n  \"gender\": \"male\",\n  \"address\": \"nostrud dolor exercitation do\",\n  \"admission_date\": \"2013-02-19\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/students/create/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												"create",
+												""
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Validation error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"full_name\": \"Excepteur quis\",\n  \"username\": \"quis qui dolor minim\",\n  \"email\": \"87RC9T0TmP@ZCBtxZbMFdizFQUulaRcN.ews\",\n  \"roll_number\": \"proident\",\n  \"guardian_name\": \"dolor adipisicing Duis sed exercitation\",\n  \"contact_number\": \"laborum\",\n  \"class_id\": 41129473,\n  \"date_of_birth\": \"2002-03-09\",\n  \"gender\": \"male\",\n  \"address\": \"nostrud dolor exercitation do\",\n  \"admission_date\": \"2013-02-19\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/students/create/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												"create",
+												""
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "last-accessed",
+					"item": [
+						{
+							"name": "{student_id}",
+							"item": [
+								{
+									"name": "students last-accessed read",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/students/last-accessed/:student_id/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												"last-accessed",
+												":student_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "student_id",
+													"value": "anim deserunt ad",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Untitled Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Basic <credentials>",
+														"description": "Added as a part of security scheme: basic"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/students/last-accessed/:student_id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"students",
+														"last-accessed",
+														":student_id",
 														""
 													],
 													"variable": [
 														{
-															"key": "content_id"
+															"key": "student_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"topic_title\": \"magna veniam\",\n    \"chapter_title\": \"reprehenderit\",\n    \"subject_name\": \"irure mollit\",\n    \"completion_percentage\": -33037563.583136365,\n    \"last_accessed\": \"1959-04-29T05:46:20.191Z\"\n  },\n  {\n    \"topic_title\": \"ut\",\n    \"chapter_title\": \"velit minim\",\n    \"subject_name\": \"anim nisi Duis\",\n    \"completion_percentage\": -97754172.31007175,\n    \"last_accessed\": \"1984-04-15T20:47:39.980Z\"\n  }\n]"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "last-login",
+					"item": [
+						{
+							"name": "{student_id}",
+							"item": [
+								{
+									"name": "students last-login read",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/students/last-login/:student_id/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												"last-login",
+												":student_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "student_id",
+													"value": "anim deserunt ad",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Untitled Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Basic <credentials>",
+														"description": "Added as a part of security scheme: basic"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/students/last-login/:student_id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"students",
+														"last-login",
+														":student_id",
+														""
+													],
+													"variable": [
+														{
+															"key": "student_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"login_time\": \"1960-03-07T03:37:40.713Z\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "login-activity",
+					"item": [
+						{
+							"name": "{student_id}",
+							"item": [
+								{
+									"name": "students login-activity create",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/students/login-activity/:student_id/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												"login-activity",
+												":student_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "student_id",
+													"value": "anim deserunt ad",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Login time recorded successfully",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Basic <credentials>",
+														"description": "Added as a part of security scheme: basic"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/students/login-activity/:student_id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"students",
+														"login-activity",
+														":student_id",
+														""
+													],
+													"variable": [
+														{
+															"key": "student_id"
 														}
 													]
 												}
@@ -440,11 +1958,251 @@
 											"header": [],
 											"cookie": [],
 											"body": ""
-										},
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "profile",
+					"item": [
+						{
+							"name": "{student_id}",
+							"item": [
+								{
+									"name": "students profile read",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/students/profile/:student_id/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												"profile",
+												":student_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "student_id",
+													"value": "anim deserunt ad",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
 										{
-											"name": "Invalid input",
+											"name": "Untitled Response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Basic <credentials>",
+														"description": "Added as a part of security scheme: basic"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/students/profile/:student_id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"students",
+														"profile",
+														":student_id",
+														""
+													],
+													"variable": [
+														{
+															"key": "student_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"roll_number\": \"consequat incididunt\",\n  \"guardian_name\": \"dolor eiusmod\",\n  \"contact_number\": \"culpa\",\n  \"user\": 46797058,\n  \"school\": -97208563,\n  \"id\": 59248374,\n  \"date_of_birth\": \"1947-01-14\",\n  \"gender\": \"female\",\n  \"address\": \"nisi commo\",\n  \"admission_date\": \"1989-06-21\",\n  \"profile_picture\": \"http://muRZRLYUHWwNGmGqXoWau.zatA0L5dXx569owGNtgA3En6eu\"\n}"
+										}
+									]
+								},
+								{
+									"name": "students profile update",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"roll_number\": \"magna quis sunt voluptate\",\n  \"guardian_name\": \"eiusmod veniam incididunt aute nisi\",\n  \"contact_number\": \"ad \",\n  \"user\": 95946297,\n  \"school\": -20961914,\n  \"date_of_birth\": \"1981-11-01\",\n  \"gender\": \"male\",\n  \"address\": \"magna fugiat reprehenderit\",\n  \"admission_date\": \"2016-11-22\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/students/profile/:student_id/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												"profile",
+												":student_id",
+												""
+											],
+											"variable": [
+												{
+													"key": "student_id",
+													"value": "anim deserunt ad",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Untitled Response",
 											"originalRequest": {
 												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Basic <credentials>",
+														"description": "Added as a part of security scheme: basic"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"roll_number\": \"magna quis sunt voluptate\",\n  \"guardian_name\": \"eiusmod veniam incididunt aute nisi\",\n  \"contact_number\": \"ad \",\n  \"user\": 95946297,\n  \"school\": -20961914,\n  \"date_of_birth\": \"1981-11-01\",\n  \"gender\": \"male\",\n  \"address\": \"magna fugiat reprehenderit\",\n  \"admission_date\": \"2016-11-22\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/students/profile/:student_id/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"students",
+														"profile",
+														":student_id",
+														""
+													],
+													"variable": [
+														{
+															"key": "student_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"roll_number\": \"consequat incididunt\",\n  \"guardian_name\": \"dolor eiusmod\",\n  \"contact_number\": \"culpa\",\n  \"user\": 46797058,\n  \"school\": -97208563,\n  \"id\": 59248374,\n  \"date_of_birth\": \"1947-01-14\",\n  \"gender\": \"female\",\n  \"address\": \"nisi commo\",\n  \"admission_date\": \"1989-06-21\",\n  \"profile_picture\": \"http://muRZRLYUHWwNGmGqXoWau.zatA0L5dXx569owGNtgA3En6eu\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "progress",
+					"item": [
+						{
+							"name": "content",
+							"item": [
+								{
+									"name": "students progress content create",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"content_id\": 73608463,\n  \"is_completed\": false\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/students/progress/content/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												"progress",
+												"content",
+												""
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Content progress updated",
+											"originalRequest": {
+												"method": "POST",
 												"header": [
 													{
 														"key": "Content-Type",
@@ -458,7 +2216,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"completed\": false\n}",
+													"raw": "{\n  \"content_id\": 73608463,\n  \"is_completed\": false\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -467,34 +2225,70 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/content/:content_id/complete/",
+													"raw": "{{baseUrl}}/students/progress/content/",
 													"host": [
 														"{{baseUrl}}"
 													],
 													"path": [
+														"students",
+														"progress",
 														"content",
-														":content_id",
-														"complete",
 														""
-													],
-													"variable": [
-														{
-															"key": "content_id"
-														}
 													]
 												}
 											},
-											"status": "Bad Request",
-											"code": 400,
+											"status": "OK",
+											"code": 200,
 											"_postman_previewlanguage": "text",
 											"header": [],
 											"cookie": [],
 											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "topic",
+							"item": [
+								{
+									"name": "students progress topic create",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"topic_id\": 25806015,\n  \"completion_percentage\": 54.5450635540452,\n  \"is_completed\": false\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
 										},
+										"url": {
+											"raw": "{{baseUrl}}/students/progress/topic/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												"progress",
+												"topic",
+												""
+											]
+										}
+									},
+									"response": [
 										{
-											"name": "Unauthorized",
+											"name": "Topic progress updated",
 											"originalRequest": {
-												"method": "PUT",
+												"method": "POST",
 												"header": [
 													{
 														"key": "Content-Type",
@@ -508,7 +2302,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"completed\": false\n}",
+													"raw": "{\n  \"topic_id\": 25806015,\n  \"completion_percentage\": 54.5450635540452,\n  \"is_completed\": false\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -517,75 +2311,20 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/content/:content_id/complete/",
+													"raw": "{{baseUrl}}/students/progress/topic/",
 													"host": [
 														"{{baseUrl}}"
 													],
 													"path": [
-														"content",
-														":content_id",
-														"complete",
+														"students",
+														"progress",
+														"topic",
 														""
-													],
-													"variable": [
-														{
-															"key": "content_id"
-														}
 													]
 												}
 											},
-											"status": "Unauthorized",
-											"code": 401,
-											"_postman_previewlanguage": "text",
-											"header": [],
-											"cookie": [],
-											"body": ""
-										},
-										{
-											"name": "Content not found",
-											"originalRequest": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Authorization",
-														"value": "Basic <credentials>",
-														"description": "Added as a part of security scheme: basic"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"completed\": false\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/content/:content_id/complete/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"content",
-														":content_id",
-														"complete",
-														""
-													],
-													"variable": [
-														{
-															"key": "content_id"
-														}
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
+											"status": "OK",
+											"code": 200,
 											"_postman_previewlanguage": "text",
 											"header": [],
 											"cookie": [],
@@ -600,1357 +2339,1011 @@
 			]
 		},
 		{
-			"name": "students",
+			"name": "subjects",
 			"item": [
 				{
-					"name": "chapters",
+					"name": "subjects list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/subjects/?class_id=-90075444",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"subjects",
+								""
+							],
+							"query": [
+								{
+									"key": "class_id",
+									"value": "-90075444",
+									"description": "(Required) ID of the class to fetch subjects for"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Untitled Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Basic <credentials>",
+										"description": "Added as a part of security scheme: basic"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/subjects/?class_id=-90075444",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"subjects",
+										""
+									],
+									"query": [
+										{
+											"key": "class_id",
+											"value": "-90075444",
+											"description": "(Required) ID of the class to fetch subjects for"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"name\": \"sit dolore Duis\",\n    \"code\": \"i\",\n    \"class_name\": \"est ut incididunt\",\n    \"section\": \"et ex consequat\",\n    \"id\": 75710489,\n    \"description\": \"dolor ut Excepteur in\"\n  },\n  {\n    \"name\": \"officia sit\",\n    \"code\": \"culpa la\",\n    \"class_name\": \"velit\",\n    \"section\": \"esse qui ad tempor fugiat\",\n    \"id\": 15283744,\n    \"description\": \"ad Lorem adipisicing culpa\"\n  }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "teachers",
+			"item": [
+				{
+					"name": "add-note",
 					"item": [
 						{
-							"name": "{subject_id}",
-							"item": [
+							"name": "teachers add-note create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "topic",
+											"value": "68915397",
+											"description": "(Required) ",
+											"type": "text"
+										},
+										{
+											"key": "note_text",
+											"value": "ex",
+											"type": "text"
+										},
+										{
+											"key": "note_file",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/teachers/add-note/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"teachers",
+										"add-note",
+										""
+									]
+								}
+							},
+							"response": [
 								{
-									"name": "Get Subject Chapters With Progress",
-									"request": {
+									"name": "Note added successfully",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "multipart/form-data"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "topic",
+													"value": "68915397",
+													"description": "(Required) ",
+													"type": "text"
+												},
+												{
+													"key": "note_text",
+													"value": "ex",
+													"type": "text"
+												},
+												{
+													"key": "note_file",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseUrl}}/teachers/add-note/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"teachers",
+												"add-note",
+												""
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Validation Error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "multipart/form-data"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "topic",
+													"value": "68915397",
+													"description": "(Required) ",
+													"type": "text"
+												},
+												{
+													"key": "note_text",
+													"value": "ex",
+													"type": "text"
+												},
+												{
+													"key": "note_file",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseUrl}}/teachers/add-note/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"teachers",
+												"add-note",
+												""
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "create-teacher",
+					"item": [
+						{
+							"name": "teachers create-teacher create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"full_name\": \"et aliqua\",\n  \"username\": \"sit sunt elit Excepteur\",\n  \"email\": \"U83fHRW@GZUxamvrkqFuYRWx.sddi\",\n  \"subject_specialization\": \"exercitation adipisicing\",\n  \"phone_number\": \"ea do\",\n  \"qualification\": \"ea elit Ut\",\n  \"assigned_class_ids\": [\n    -15361429,\n    49134594\n  ],\n  \"date_of_birth\": \"2010-10-16\",\n  \"gender\": \"female\",\n  \"address\": \"ex tempor i\",\n  \"experience_years\": 57824704\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/teachers/create-teacher/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"teachers",
+										"create-teacher",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Teacher created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"full_name\": \"et aliqua\",\n  \"username\": \"sit sunt elit Excepteur\",\n  \"email\": \"U83fHRW@GZUxamvrkqFuYRWx.sddi\",\n  \"subject_specialization\": \"exercitation adipisicing\",\n  \"phone_number\": \"ea do\",\n  \"qualification\": \"ea elit Ut\",\n  \"assigned_class_ids\": [\n    -15361429,\n    49134594\n  ],\n  \"date_of_birth\": \"2010-10-16\",\n  \"gender\": \"female\",\n  \"address\": \"ex tempor i\",\n  \"experience_years\": 57824704\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/teachers/create-teacher/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"teachers",
+												"create-teacher",
+												""
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Validation error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"full_name\": \"et aliqua\",\n  \"username\": \"sit sunt elit Excepteur\",\n  \"email\": \"U83fHRW@GZUxamvrkqFuYRWx.sddi\",\n  \"subject_specialization\": \"exercitation adipisicing\",\n  \"phone_number\": \"ea do\",\n  \"qualification\": \"ea elit Ut\",\n  \"assigned_class_ids\": [\n    -15361429,\n    49134594\n  ],\n  \"date_of_birth\": \"2010-10-16\",\n  \"gender\": \"female\",\n  \"address\": \"ex tempor i\",\n  \"experience_years\": 57824704\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/teachers/create-teacher/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"teachers",
+												"create-teacher",
+												""
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "mark-content-completed",
+					"item": [
+						{
+							"name": "teachers mark-content-completed create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"content_id\": -58627979\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/teachers/mark-content-completed/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"teachers",
+										"mark-content-completed",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Content marked as completed",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"content_id\": -58627979\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/teachers/mark-content-completed/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"teachers",
+												"mark-content-completed",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Content not found",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"content_id\": -58627979\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/teachers/mark-content-completed/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"teachers",
+												"mark-content-completed",
+												""
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "mark-topic-completed",
+					"item": [
+						{
+							"name": "teachers mark-topic-completed create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"topic_id\": 2485539\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/teachers/mark-topic-completed/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"teachers",
+										"mark-topic-completed",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Topic marked as completed",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"topic_id\": 2485539\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/teachers/mark-topic-completed/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"teachers",
+												"mark-topic-completed",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Topic not found",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"topic_id\": 2485539\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/teachers/mark-topic-completed/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"teachers",
+												"mark-topic-completed",
+												""
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "teacher-students",
+					"item": [
+						{
+							"name": "teachers teacher-students list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/teachers/teacher-students/?subject_id=-90075444",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"teachers",
+										"teacher-students",
+										""
+									],
+									"query": [
+										{
+											"key": "subject_id",
+											"value": "-90075444",
+											"description": "Filter students by subject ID"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Untitled Response",
+									"originalRequest": {
 										"method": "GET",
 										"header": [
 											{
 												"key": "Accept",
 												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/students/chapters/:subject_id/",
+											"raw": "{{baseUrl}}/teachers/teacher-students/?subject_id=-90075444",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
-												"students",
-												"chapters",
-												":subject_id",
+												"teachers",
+												"teacher-students",
 												""
 											],
-											"variable": [
+											"query": [
 												{
 													"key": "subject_id",
-													"value": "Ut sed",
-													"description": "(Required) ID of the subject"
-												},
-												{
-													"key": "user_id",
-													"value": "Ut sed",
-													"description": "(Required) ID of the student user"
+													"value": "-90075444",
+													"description": "Filter students by subject ID"
 												}
 											]
-										},
-										"description": "Retrieve chapters of a subject with topic progress for the given student."
+										}
 									},
-									"response": [
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
 										{
-											"name": "Chapters with progress",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"key": "Authorization",
-														"value": "Basic <credentials>",
-														"description": "Added as a part of security scheme: basic"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/students/chapters/:subject_id/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"chapters",
-														":subject_id",
-														""
-													],
-													"variable": [
-														{
-															"key": "subject_id"
-														}
-													]
-												}
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"full_name\": \"ipsum est esse dolore\",\n    \"email\": \"CZRQAgyy-rQY@nJVOfLDotEqukZodUZS.bxvs\",\n    \"roll_number\": \"ad\",\n    \"guardian_name\": \"cupidatat \",\n    \"contact_number\": \"ad veni\",\n    \"id\": 3902186,\n    \"class_name\": \"irure p\",\n    \"section\": \"in\"\n  },\n  {\n    \"full_name\": \"minim consectetu\",\n    \"email\": \"YlEq@oIkwpoFLRnZibtNcaOWlTy.zl\",\n    \"roll_number\": \"dolor\",\n    \"guardian_name\": \"laboris cupidatat quis culpa aliqua\",\n    \"contact_number\": \"Lorem iru\",\n    \"id\": -7688398,\n    \"class_name\": \"reprehenderit sit\",\n    \"section\": \"ut pariatur sunt\"\n  }\n]"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "topic",
+			"item": [
+				{
+					"name": "add",
+					"item": [
+						{
+							"name": "topic add create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"chapter_id\": 85897417,\n  \"title\": \"magna Lorem ut exercitation culpa\",\n  \"number\": 69685736,\n  \"contents\": [\n    {\n      \"title\": \"laborum Duis\",\n      \"video_link\": \"https://hqBsGwROnInyt.gvgwYdZmjkmr5yEGTacO+sL+kN1umJV\",\n      \"text_content\": \"adipisicing labore fugiat aliquip\",\n      \"order\": 1,\n      \"is_active\": true\n    },\n    {\n      \"title\": \"aliquip reprehenderit in sint culpa\",\n      \"video_link\": \"http://DakPIwCTzvkGpQzYBwzSXQQXOARjFUaco.ponHauKL-5FSYmEfHjw6sZ7vNWtE,Iy\",\n      \"text_content\": \"aliquip\",\n      \"order\": 1,\n      \"is_active\": true\n    }\n  ],\n  \"description\": \"ut anim aliqua sed\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/topic/add/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"topic",
+										"add",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Topic and content created",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
 											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"chapter_id\": 85897417,\n  \"title\": \"magna Lorem ut exercitation culpa\",\n  \"number\": 69685736,\n  \"contents\": [\n    {\n      \"title\": \"laborum Duis\",\n      \"video_link\": \"https://hqBsGwROnInyt.gvgwYdZmjkmr5yEGTacO+sL+kN1umJV\",\n      \"text_content\": \"adipisicing labore fugiat aliquip\",\n      \"order\": 1,\n      \"is_active\": true\n    },\n    {\n      \"title\": \"aliquip reprehenderit in sint culpa\",\n      \"video_link\": \"http://DakPIwCTzvkGpQzYBwzSXQQXOARjFUaco.ponHauKL-5FSYmEfHjw6sZ7vNWtE,Iy\",\n      \"text_content\": \"aliquip\",\n      \"order\": 1,\n      \"is_active\": true\n    }\n  ],\n  \"description\": \"ut anim aliqua sed\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
 												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/topic/add/",
+											"host": [
+												"{{baseUrl}}"
 											],
-											"cookie": [],
-											"body": "[\n  {\n    \"name\": \"deserunt velit\",\n    \"id\": 33560948,\n    \"description\": \"ex m\",\n    \"topics\": \"laboris magna\"\n  },\n  {\n    \"name\": \"incididunt\",\n    \"id\": -15796425,\n    \"description\": \"nisi proident\",\n    \"topics\": \"nulla laborum dolor occaecat\"\n  }\n]"
-										},
-										{
-											"name": "Permission denied",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Authorization",
-														"value": "Basic <credentials>",
-														"description": "Added as a part of security scheme: basic"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/students/chapters/:subject_id/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"chapters",
-														":subject_id",
-														""
-													],
-													"variable": [
-														{
-															"key": "subject_id"
-														}
-													]
-												}
-											},
-											"status": "Forbidden",
-											"code": 403,
-											"_postman_previewlanguage": "text",
-											"header": [],
-											"cookie": [],
-											"body": ""
-										},
-										{
-											"name": "Subject not found",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Authorization",
-														"value": "Basic <credentials>",
-														"description": "Added as a part of security scheme: basic"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/students/chapters/:subject_id/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"chapters",
-														":subject_id",
-														""
-													],
-													"variable": [
-														{
-															"key": "subject_id"
-														}
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "text",
-											"header": [],
-											"cookie": [],
-											"body": ""
+											"path": [
+												"topic",
+												"add",
+												""
+											]
 										}
-									]
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"chapter_id\": 85897417,\n  \"title\": \"magna Lorem ut exercitation culpa\",\n  \"number\": 69685736,\n  \"contents\": [\n    {\n      \"title\": \"laborum Duis\",\n      \"video_link\": \"https://hqBsGwROnInyt.gvgwYdZmjkmr5yEGTacO+sL+kN1umJV\",\n      \"text_content\": \"adipisicing labore fugiat aliquip\",\n      \"order\": 1,\n      \"is_active\": true\n    },\n    {\n      \"title\": \"aliquip reprehenderit in sint culpa\",\n      \"video_link\": \"http://DakPIwCTzvkGpQzYBwzSXQQXOARjFUaco.ponHauKL-5FSYmEfHjw6sZ7vNWtE,Iy\",\n      \"text_content\": \"aliquip\",\n      \"order\": 1,\n      \"is_active\": true\n    }\n  ],\n  \"description\": \"ut anim aliqua sed\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/topic/add/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"topic",
+												"add",
+												""
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
 								}
 							]
 						}
 					]
 				},
 				{
-					"name": "dashboard",
+					"name": "teacher-notes",
 					"item": [
 						{
-							"name": "{user_id}",
-							"item": [
-								{
-									"name": "{account_type}",
-									"item": [
+							"name": "topic teacher-notes list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/topic/teacher-notes/?topic_id=-90075444",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"topic",
+										"teacher-notes",
+										""
+									],
+									"query": [
 										{
-											"name": "Student Dashboard",
-											"request": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/students/dashboard/:user_id/:account_type/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"dashboard",
-														":user_id",
-														":account_type",
-														""
-													],
-													"variable": [
-														{
-															"key": "user_id",
-															"value": "Ut sed",
-															"description": "(Required) ID of the student user"
-														},
-														{
-															"key": "account_type",
-															"value": "Ut sed",
-															"description": "(Required) Account type of the student"
-														}
-													]
-												},
-												"description": "Get dashboard data for a student including subject completion and recent incomplete topics."
-											},
-											"response": [
-												{
-													"name": "Dashboard data",
-													"originalRequest": {
-														"method": "GET",
-														"header": [
-															{
-																"key": "Accept",
-																"value": "application/json"
-															},
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"url": {
-															"raw": "{{baseUrl}}/students/dashboard/:user_id/:account_type/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"dashboard",
-																":user_id",
-																":account_type",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																},
-																{
-																	"key": "account_type"
-																}
-															]
-														}
-													},
-													"status": "OK",
-													"code": 200,
-													"_postman_previewlanguage": "json",
-													"header": [
-														{
-															"key": "Content-Type",
-															"value": "application/json"
-														}
-													],
-													"cookie": [],
-													"body": "{\n  \"subjects\": [\n    {\n      \"subject_name\": \"id\",\n      \"completion_percentage\": \"nulla consequat\"\n    },\n    {\n      \"subject_name\": \"amet ut sint\",\n      \"completion_percentage\": \"e\"\n    }\n  ],\n  \"recent_incomplete_topics\": [\n    {\n      \"topic_name\": \"cillum irure ea\",\n      \"subject_name\": \"sint quis nostr\",\n      \"chapter_name\": \"officia\",\n      \"completion_percentage\": \"magna occaecat\",\n      \"last_accessed\": \"1964-01-10T12:59:30.652Z\"\n    },\n    {\n      \"topic_name\": \"ex laborum fugiat anim\",\n      \"subject_name\": \"Ut do\",\n      \"chapter_name\": \"consectetu\",\n      \"completion_percentage\": \"labore eiusmod sed\",\n      \"last_accessed\": \"1994-06-09T05:01:29.149Z\"\n    }\n  ]\n}"
-												},
-												{
-													"name": "Token missing or unauthorized",
-													"originalRequest": {
-														"method": "GET",
-														"header": [
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"url": {
-															"raw": "{{baseUrl}}/students/dashboard/:user_id/:account_type/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"dashboard",
-																":user_id",
-																":account_type",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																},
-																{
-																	"key": "account_type"
-																}
-															]
-														}
-													},
-													"status": "Unauthorized",
-													"code": 401,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												},
-												{
-													"name": "Student or class not found",
-													"originalRequest": {
-														"method": "GET",
-														"header": [
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"url": {
-															"raw": "{{baseUrl}}/students/dashboard/:user_id/:account_type/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"dashboard",
-																":user_id",
-																":account_type",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																},
-																{
-																	"key": "account_type"
-																}
-															]
-														}
-													},
-													"status": "Not Found",
-													"code": 404,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												}
-											]
+											"key": "topic_id",
+											"value": "-90075444",
+											"description": "(Required) ID of the topic to fetch teacher notes for"
 										}
 									]
 								}
-							]
-						}
-					]
-				},
-				{
-					"name": "profile",
-					"item": [
-						{
-							"name": "{user_id}",
-							"item": [
+							},
+							"response": [
 								{
-									"name": "create",
-									"item": [
-										{
-											"name": "Create Student Profile",
-											"request": {
-												"method": "POST",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"dob\": \"1991-12-08\",\n  \"address\": \"laborum dolor\",\n  \"phone\": \"ullamco rep\",\n  \"gender\": \"of\",\n  \"guardian_name\": \"dolore Duis ad aute\",\n  \"emergency_contact\": \"irure e\"\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/students/profile/:user_id/create/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"profile",
-														":user_id",
-														"create",
-														""
-													],
-													"variable": [
-														{
-															"key": "user_id",
-															"value": "Ut sed",
-															"description": "(Required) ID of the user to create profile for"
-														}
-													]
-												},
-												"description": "Create a student profile for the given user ID."
-											},
-											"response": [
-												{
-													"name": "Student profile created",
-													"originalRequest": {
-														"method": "POST",
-														"header": [
-															{
-																"key": "Content-Type",
-																"value": "application/json"
-															},
-															{
-																"key": "Accept",
-																"value": "application/json"
-															},
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"body": {
-															"mode": "raw",
-															"raw": "{\n  \"dob\": \"1991-12-08\",\n  \"address\": \"laborum dolor\",\n  \"phone\": \"ullamco rep\",\n  \"gender\": \"of\",\n  \"guardian_name\": \"dolore Duis ad aute\",\n  \"emergency_contact\": \"irure e\"\n}",
-															"options": {
-																"raw": {
-																	"headerFamily": "json",
-																	"language": "json"
-																}
-															}
-														},
-														"url": {
-															"raw": "{{baseUrl}}/students/profile/:user_id/create/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"profile",
-																":user_id",
-																"create",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																}
-															]
-														}
-													},
-													"status": "Created",
-													"code": 201,
-													"_postman_previewlanguage": "json",
-													"header": [
-														{
-															"key": "Content-Type",
-															"value": "application/json"
-														}
-													],
-													"cookie": [],
-													"body": "{\n  \"dob\": \"1986-11-24\",\n  \"address\": \"officia aliquip commodo aliqua\",\n  \"phone\": \"eu laborum voluptat\",\n  \"gender\": \"mol\",\n  \"guardian_name\": \"dolor consectetur id quis\",\n  \"emergency_contact\": \"ipsum quis\",\n  \"id\": -21962050,\n  \"student_school\": {\n    \"student_name\": \"culpa quis incididunt\",\n    \"user\": 65524805,\n    \"class_assigned\": 72523495,\n    \"school\": -79517849,\n    \"id\": 68782468\n  },\n  \"class_assigned\": {\n    \"class_name\": \"aliqua Duis laboris ullamco\",\n    \"section\": \"co\",\n    \"school\": -80338036,\n    \"id\": 50826718\n  }\n}"
-												},
-												{
-													"name": "Invalid input",
-													"originalRequest": {
-														"method": "POST",
-														"header": [
-															{
-																"key": "Content-Type",
-																"value": "application/json"
-															},
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"body": {
-															"mode": "raw",
-															"raw": "{\n  \"dob\": \"1991-12-08\",\n  \"address\": \"laborum dolor\",\n  \"phone\": \"ullamco rep\",\n  \"gender\": \"of\",\n  \"guardian_name\": \"dolore Duis ad aute\",\n  \"emergency_contact\": \"irure e\"\n}",
-															"options": {
-																"raw": {
-																	"headerFamily": "json",
-																	"language": "json"
-																}
-															}
-														},
-														"url": {
-															"raw": "{{baseUrl}}/students/profile/:user_id/create/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"profile",
-																":user_id",
-																"create",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																}
-															]
-														}
-													},
-													"status": "Bad Request",
-													"code": 400,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												},
-												{
-													"name": "Permission denied",
-													"originalRequest": {
-														"method": "POST",
-														"header": [
-															{
-																"key": "Content-Type",
-																"value": "application/json"
-															},
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"body": {
-															"mode": "raw",
-															"raw": "{\n  \"dob\": \"1991-12-08\",\n  \"address\": \"laborum dolor\",\n  \"phone\": \"ullamco rep\",\n  \"gender\": \"of\",\n  \"guardian_name\": \"dolore Duis ad aute\",\n  \"emergency_contact\": \"irure e\"\n}",
-															"options": {
-																"raw": {
-																	"headerFamily": "json",
-																	"language": "json"
-																}
-															}
-														},
-														"url": {
-															"raw": "{{baseUrl}}/students/profile/:user_id/create/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"profile",
-																":user_id",
-																"create",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																}
-															]
-														}
-													},
-													"status": "Forbidden",
-													"code": 403,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												},
-												{
-													"name": "StudentSchool not found",
-													"originalRequest": {
-														"method": "POST",
-														"header": [
-															{
-																"key": "Content-Type",
-																"value": "application/json"
-															},
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"body": {
-															"mode": "raw",
-															"raw": "{\n  \"dob\": \"1991-12-08\",\n  \"address\": \"laborum dolor\",\n  \"phone\": \"ullamco rep\",\n  \"gender\": \"of\",\n  \"guardian_name\": \"dolore Duis ad aute\",\n  \"emergency_contact\": \"irure e\"\n}",
-															"options": {
-																"raw": {
-																	"headerFamily": "json",
-																	"language": "json"
-																}
-															}
-														},
-														"url": {
-															"raw": "{{baseUrl}}/students/profile/:user_id/create/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"profile",
-																":user_id",
-																"create",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																}
-															]
-														}
-													},
-													"status": "Not Found",
-													"code": 404,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												}
-											]
-										}
-									]
-								},
-								{
-									"name": "delete",
-									"item": [
-										{
-											"name": "Delete Student Profile",
-											"request": {
-												"method": "DELETE",
-												"header": [],
-												"url": {
-													"raw": "{{baseUrl}}/students/profile/:user_id/delete/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"profile",
-														":user_id",
-														"delete",
-														""
-													],
-													"variable": [
-														{
-															"key": "user_id",
-															"value": "Ut sed",
-															"description": "(Required) ID of the user to delete profile for"
-														}
-													]
-												},
-												"description": "Delete the student profile for the given user ID."
-											},
-											"response": [
-												{
-													"name": "Deleted successfully",
-													"originalRequest": {
-														"method": "DELETE",
-														"header": [
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"url": {
-															"raw": "{{baseUrl}}/students/profile/:user_id/delete/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"profile",
-																":user_id",
-																"delete",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																}
-															]
-														}
-													},
-													"status": "No Content",
-													"code": 204,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												},
-												{
-													"name": "Permission denied",
-													"originalRequest": {
-														"method": "DELETE",
-														"header": [
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"url": {
-															"raw": "{{baseUrl}}/students/profile/:user_id/delete/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"profile",
-																":user_id",
-																"delete",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																}
-															]
-														}
-													},
-													"status": "Forbidden",
-													"code": 403,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												},
-												{
-													"name": "Student profile not found",
-													"originalRequest": {
-														"method": "DELETE",
-														"header": [
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"url": {
-															"raw": "{{baseUrl}}/students/profile/:user_id/delete/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"profile",
-																":user_id",
-																"delete",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																}
-															]
-														}
-													},
-													"status": "Not Found",
-													"code": 404,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												}
-											]
-										}
-									]
-								},
-								{
-									"name": "update",
-									"item": [
-										{
-											"name": "Update Student Profile",
-											"request": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"dob\": \"1991-12-08\",\n  \"address\": \"laborum dolor\",\n  \"phone\": \"ullamco rep\",\n  \"gender\": \"of\",\n  \"guardian_name\": \"dolore Duis ad aute\",\n  \"emergency_contact\": \"irure e\"\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/students/profile/:user_id/update/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"profile",
-														":user_id",
-														"update",
-														""
-													],
-													"variable": [
-														{
-															"key": "user_id",
-															"value": "Ut sed",
-															"description": "(Required) ID of the user to update profile for"
-														}
-													]
-												},
-												"description": "Update the student profile for the given user ID."
-											},
-											"response": [
-												{
-													"name": "Student profile updated",
-													"originalRequest": {
-														"method": "PUT",
-														"header": [
-															{
-																"key": "Content-Type",
-																"value": "application/json"
-															},
-															{
-																"key": "Accept",
-																"value": "application/json"
-															},
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"body": {
-															"mode": "raw",
-															"raw": "{\n  \"dob\": \"1991-12-08\",\n  \"address\": \"laborum dolor\",\n  \"phone\": \"ullamco rep\",\n  \"gender\": \"of\",\n  \"guardian_name\": \"dolore Duis ad aute\",\n  \"emergency_contact\": \"irure e\"\n}",
-															"options": {
-																"raw": {
-																	"headerFamily": "json",
-																	"language": "json"
-																}
-															}
-														},
-														"url": {
-															"raw": "{{baseUrl}}/students/profile/:user_id/update/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"profile",
-																":user_id",
-																"update",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																}
-															]
-														}
-													},
-													"status": "OK",
-													"code": 200,
-													"_postman_previewlanguage": "json",
-													"header": [
-														{
-															"key": "Content-Type",
-															"value": "application/json"
-														}
-													],
-													"cookie": [],
-													"body": "{\n  \"dob\": \"1986-11-24\",\n  \"address\": \"officia aliquip commodo aliqua\",\n  \"phone\": \"eu laborum voluptat\",\n  \"gender\": \"mol\",\n  \"guardian_name\": \"dolor consectetur id quis\",\n  \"emergency_contact\": \"ipsum quis\",\n  \"id\": -21962050,\n  \"student_school\": {\n    \"student_name\": \"culpa quis incididunt\",\n    \"user\": 65524805,\n    \"class_assigned\": 72523495,\n    \"school\": -79517849,\n    \"id\": 68782468\n  },\n  \"class_assigned\": {\n    \"class_name\": \"aliqua Duis laboris ullamco\",\n    \"section\": \"co\",\n    \"school\": -80338036,\n    \"id\": 50826718\n  }\n}"
-												},
-												{
-													"name": "Invalid input",
-													"originalRequest": {
-														"method": "PUT",
-														"header": [
-															{
-																"key": "Content-Type",
-																"value": "application/json"
-															},
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"body": {
-															"mode": "raw",
-															"raw": "{\n  \"dob\": \"1991-12-08\",\n  \"address\": \"laborum dolor\",\n  \"phone\": \"ullamco rep\",\n  \"gender\": \"of\",\n  \"guardian_name\": \"dolore Duis ad aute\",\n  \"emergency_contact\": \"irure e\"\n}",
-															"options": {
-																"raw": {
-																	"headerFamily": "json",
-																	"language": "json"
-																}
-															}
-														},
-														"url": {
-															"raw": "{{baseUrl}}/students/profile/:user_id/update/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"profile",
-																":user_id",
-																"update",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																}
-															]
-														}
-													},
-													"status": "Bad Request",
-													"code": 400,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												},
-												{
-													"name": "Permission denied",
-													"originalRequest": {
-														"method": "PUT",
-														"header": [
-															{
-																"key": "Content-Type",
-																"value": "application/json"
-															},
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"body": {
-															"mode": "raw",
-															"raw": "{\n  \"dob\": \"1991-12-08\",\n  \"address\": \"laborum dolor\",\n  \"phone\": \"ullamco rep\",\n  \"gender\": \"of\",\n  \"guardian_name\": \"dolore Duis ad aute\",\n  \"emergency_contact\": \"irure e\"\n}",
-															"options": {
-																"raw": {
-																	"headerFamily": "json",
-																	"language": "json"
-																}
-															}
-														},
-														"url": {
-															"raw": "{{baseUrl}}/students/profile/:user_id/update/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"profile",
-																":user_id",
-																"update",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																}
-															]
-														}
-													},
-													"status": "Forbidden",
-													"code": 403,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												},
-												{
-													"name": "Student profile not found",
-													"originalRequest": {
-														"method": "PUT",
-														"header": [
-															{
-																"key": "Content-Type",
-																"value": "application/json"
-															},
-															{
-																"key": "Authorization",
-																"value": "Basic <credentials>",
-																"description": "Added as a part of security scheme: basic"
-															}
-														],
-														"body": {
-															"mode": "raw",
-															"raw": "{\n  \"dob\": \"1991-12-08\",\n  \"address\": \"laborum dolor\",\n  \"phone\": \"ullamco rep\",\n  \"gender\": \"of\",\n  \"guardian_name\": \"dolore Duis ad aute\",\n  \"emergency_contact\": \"irure e\"\n}",
-															"options": {
-																"raw": {
-																	"headerFamily": "json",
-																	"language": "json"
-																}
-															}
-														},
-														"url": {
-															"raw": "{{baseUrl}}/students/profile/:user_id/update/",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"students",
-																"profile",
-																":user_id",
-																"update",
-																""
-															],
-															"variable": [
-																{
-																	"key": "user_id"
-																}
-															]
-														}
-													},
-													"status": "Not Found",
-													"code": 404,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												}
-											]
-										}
-									]
-								},
-								{
-									"name": "Get Student Profile",
-									"request": {
+									"name": "Untitled Response",
+									"originalRequest": {
 										"method": "GET",
 										"header": [
 											{
 												"key": "Accept",
 												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic <credentials>",
+												"description": "Added as a part of security scheme: basic"
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/students/profile/:user_id/",
+											"raw": "{{baseUrl}}/topic/teacher-notes/?topic_id=-90075444",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
-												"students",
-												"profile",
-												":user_id",
+												"topic",
+												"teacher-notes",
 												""
 											],
-											"variable": [
+											"query": [
 												{
-													"key": "user_id",
-													"value": "Ut sed",
-													"description": "(Required) ID of the user to retrieve profile for"
+													"key": "topic_id",
+													"value": "-90075444",
+													"description": "(Required) ID of the topic to fetch teacher notes for"
 												}
 											]
-										},
-										"description": "Retrieve the student profile by user ID. Only the user themselves can access."
-									},
-									"response": [
-										{
-											"name": "Student profile retrieved",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"key": "Authorization",
-														"value": "Basic <credentials>",
-														"description": "Added as a part of security scheme: basic"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/students/profile/:user_id/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"profile",
-														":user_id",
-														""
-													],
-													"variable": [
-														{
-															"key": "user_id"
-														}
-													]
-												}
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"dob\": \"1986-11-24\",\n  \"address\": \"officia aliquip commodo aliqua\",\n  \"phone\": \"eu laborum voluptat\",\n  \"gender\": \"mol\",\n  \"guardian_name\": \"dolor consectetur id quis\",\n  \"emergency_contact\": \"ipsum quis\",\n  \"id\": -21962050,\n  \"student_school\": {\n    \"student_name\": \"culpa quis incididunt\",\n    \"user\": 65524805,\n    \"class_assigned\": 72523495,\n    \"school\": -79517849,\n    \"id\": 68782468\n  },\n  \"class_assigned\": {\n    \"class_name\": \"aliqua Duis laboris ullamco\",\n    \"section\": \"co\",\n    \"school\": -80338036,\n    \"id\": 50826718\n  }\n}"
-										},
-										{
-											"name": "Permission denied",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Authorization",
-														"value": "Basic <credentials>",
-														"description": "Added as a part of security scheme: basic"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/students/profile/:user_id/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"profile",
-														":user_id",
-														""
-													],
-													"variable": [
-														{
-															"key": "user_id"
-														}
-													]
-												}
-											},
-											"status": "Forbidden",
-											"code": 403,
-											"_postman_previewlanguage": "text",
-											"header": [],
-											"cookie": [],
-											"body": ""
-										},
-										{
-											"name": "Student profile not found",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Authorization",
-														"value": "Basic <credentials>",
-														"description": "Added as a part of security scheme: basic"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/students/profile/:user_id/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"profile",
-														":user_id",
-														""
-													],
-													"variable": [
-														{
-															"key": "user_id"
-														}
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "text",
-											"header": [],
-											"cookie": [],
-											"body": ""
 										}
-									]
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": 87598360,\n    \"teacher_name\": \"ex dolore aute quis\",\n    \"note_text\": \"anim Duis in exercitation\",\n    \"note_file\": \"https://UISyeDFcsIISutUthYZvFIBXJTRWZIMss.idjRbtSaxxOW7f96fiP8pXPkMt1-dBEPsnRXyCq2sPNz.vzcTy.R.e\",\n    \"created_at\": \"1955-03-16T15:02:38.121Z\"\n  },\n  {\n    \"id\": -36920820,\n    \"teacher_name\": \"nisi minim\",\n    \"note_text\": \"dolor anim commodo\",\n    \"note_file\": \"https://BKCWxmgzqNUVzFp.vqJo5WH4znjA5ZOufEEKKz+SNWsSinL,1KJZePsFIoSnuW2gr9xvfKnbGWOGU-,kQ4K90ndqtFi89\",\n    \"created_at\": \"2017-01-21T04:06:51.601Z\"\n  }\n]"
 								}
 							]
 						}
 					]
-				},
+				}
+			]
+		},
+		{
+			"name": "topics-with-contents",
+			"item": [
 				{
-					"name": "subjects",
-					"item": [
-						{
-							"name": "{user_id}",
-							"item": [
+					"name": "topics-with-contents list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/topics-with-contents/?subject_id=-90075444",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"topics-with-contents",
+								""
+							],
+							"query": [
 								{
-									"name": "Get Student Subjects",
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Accept",
-												"value": "application/json"
-											}
-										],
-										"url": {
-											"raw": "{{baseUrl}}/students/subjects/:user_id/",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"students",
-												"subjects",
-												":user_id",
-												""
-											],
-											"variable": [
-												{
-													"key": "user_id",
-													"value": "Ut sed",
-													"description": "(Required) ID of the student user"
-												}
-											]
-										},
-										"description": "Retrieve the list of subjects assigned to the student's class."
+									"key": "subject_id",
+									"value": "-90075444",
+									"description": "(Required) ID of the subject to fetch topics and contents for"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Untitled Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
 									},
-									"response": [
+									{
+										"key": "Authorization",
+										"value": "Basic <credentials>",
+										"description": "Added as a part of security scheme: basic"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/topics-with-contents/?subject_id=-90075444",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"topics-with-contents",
+										""
+									],
+									"query": [
 										{
-											"name": "Subjects list",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"key": "Authorization",
-														"value": "Basic <credentials>",
-														"description": "Added as a part of security scheme: basic"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/students/subjects/:user_id/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"subjects",
-														":user_id",
-														""
-													],
-													"variable": [
-														{
-															"key": "user_id"
-														}
-													]
-												}
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "[\n  {\n    \"name\": \"laborum labore tempor\",\n    \"id\": 58688329,\n    \"description\": \"dolor commodo\",\n    \"assigned_teacher_name\": \"laboris\"\n  },\n  {\n    \"name\": \"nulla non ad\",\n    \"id\": 32827449,\n    \"description\": \"in adipisicing dolore non\",\n    \"assigned_teacher_name\": \"sint ipsum\"\n  }\n]"
-										},
-										{
-											"name": "Authorization token missing",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Authorization",
-														"value": "Basic <credentials>",
-														"description": "Added as a part of security scheme: basic"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/students/subjects/:user_id/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"subjects",
-														":user_id",
-														""
-													],
-													"variable": [
-														{
-															"key": "user_id"
-														}
-													]
-												}
-											},
-											"status": "Unauthorized",
-											"code": 401,
-											"_postman_previewlanguage": "text",
-											"header": [],
-											"cookie": [],
-											"body": ""
-										},
-										{
-											"name": "Student or class not assigned",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Authorization",
-														"value": "Basic <credentials>",
-														"description": "Added as a part of security scheme: basic"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/students/subjects/:user_id/",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"students",
-														"subjects",
-														":user_id",
-														""
-													],
-													"variable": [
-														{
-															"key": "user_id"
-														}
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "text",
-											"header": [],
-											"cookie": [],
-											"body": ""
+											"key": "subject_id",
+											"value": "-90075444",
+											"description": "(Required) ID of the subject to fetch topics and contents for"
 										}
 									]
 								}
-							]
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"title\": \"est ad Lorem\",\n    \"number\": -50499397,\n    \"contents\": [\n      {\n        \"title\": \"in culpa\",\n        \"id\": 23653561,\n        \"video_link\": \"https://Ep.taysHo,AiW.4lKaIC176NLH1RKfIIoUl8-eilTVNE7C053kuPyypgH30J.5qrOF\",\n        \"text_content\": \"cupidatat occaecat reprehenderit\",\n        \"order\": 79635646,\n        \"is_active\": true,\n        \"is_completed\": true\n      },\n      {\n        \"title\": \"et se\",\n        \"id\": -37821853,\n        \"video_link\": \"http://AaPS.yeyHAp--grI6\",\n        \"text_content\": \"incididunt commodo exercitation\",\n        \"order\": 16976316,\n        \"is_active\": false,\n        \"is_completed\": false\n      }\n    ],\n    \"id\": 45215079,\n    \"description\": \"elit exercitation occaecat\",\n    \"is_completed\": false\n  },\n  {\n    \"title\": \"ex enim cupidatat\",\n    \"number\": -83817900,\n    \"contents\": [\n      {\n        \"title\": \"adipisicing veniam ea\",\n        \"id\": 82846597,\n        \"video_link\": \"http://etYaIDZPNaiSNf.naFxZQsauDSSjjriA9PdOtZolEE7MJC4Cxmu4\",\n        \"text_content\": \"enim cillum qui veniam sint\",\n        \"order\": 21579033,\n        \"is_active\": false,\n        \"is_completed\": false\n      },\n      {\n        \"title\": \"ipsum\",\n        \"id\": 9359785,\n        \"video_link\": \"http://rySkvB.hijuxH62SWGIMbiVAKB4wZ5qJrZHCoJfrBYUCRG99ZWuP6B18GUrA+0d\",\n        \"text_content\": \"eiusmod laboris sit o\",\n        \"order\": 43633542,\n        \"is_active\": false,\n        \"is_completed\": true\n      }\n    ],\n    \"id\": -87921434,\n    \"description\": \"ea in ad dolore\",\n    \"is_completed\": true\n  }\n]"
 						}
 					]
 				}

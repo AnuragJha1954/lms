@@ -1,121 +1,92 @@
 from rest_framework import serializers
-from .models import (
-    StudentProfile,
-    TopicProgress,
-    AssignedChapterTopic
-)
+from users.models import CustomUser
+from students.models import StudentProfile, StudentClassAssignment, TopicProgress, ContentProgress, TopicAccessLog, StudentLoginActivity
+from v1.models import ClassModel
+from school.models import SchoolProfile
 
-from v1.models import (
-    Subject,
-    Chapter,
-    Topic,
-    Content
-)
+class StudentCreateSerializer(serializers.ModelSerializer):
+    full_name = serializers.CharField(write_only=True)
+    email = serializers.EmailField(write_only=True)
+    username = serializers.CharField(write_only=True)
+    class_id = serializers.IntegerField(write_only=True)
 
-from teachers.models import (
-    Teacher
-)
+    class Meta:
+        model = StudentProfile
+        fields = [
+            'full_name', 'username', 'email', 'roll_number', 'guardian_name',
+            'contact_number', 'date_of_birth', 'gender', 'address',
+            'admission_date', 'profile_picture', 'class_id'
+        ]
+
+    def create(self, validated_data):
+        full_name = validated_data.pop('full_name')
+        email = validated_data.pop('email')
+        username = validated_data.pop('username')
+        class_id = validated_data.pop('class_id')
+        school = self.context['request'].user.school_profile
+
+        user = CustomUser.objects.create_user(
+            username=username,
+            email=email,
+            password='demo@123',
+            full_name=full_name,
+            role='student'
+        )
+
+        student = StudentProfile.objects.create(user=user, school=school, **validated_data)
+        StudentClassAssignment.objects.create(student=student, class_model_id=class_id)
+        return student
+
+
+
+
+
+class ContentProgressSerializer(serializers.Serializer):
+    content_id = serializers.IntegerField()
+    is_completed = serializers.BooleanField()
+
+class TopicProgressSerializer(serializers.Serializer):
+    topic_id = serializers.IntegerField()
+    completion_percentage = serializers.FloatField(min_value=0.0, max_value=100.0)
+    is_completed = serializers.BooleanField()
+
+class TopicAccessLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TopicAccessLog
+        fields = ['id', 'topic', 'accessed_at']
+
+
+
+
+
+class LastAccessedTopicSerializer(serializers.ModelSerializer):
+    topic_title = serializers.CharField(source='topic.title')
+    chapter_title = serializers.CharField(source='topic.chapter.title')
+    subject_name = serializers.CharField(source='topic.chapter.subject.name')
+    last_accessed = serializers.DateTimeField()
+    completion_percentage = serializers.FloatField()
+
+    class Meta:
+        model = TopicProgress
+        fields = ['topic_title', 'chapter_title', 'subject_name', 'completion_percentage', 'last_accessed']
+
+
+
+
+
+
+class StudentLastLoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentLoginActivity
+        fields = ['login_time']
+
 
 
 
 class StudentProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentProfile
-        fields = '__all__'  # or list specific fields if you prefer
-        read_only_fields = ('student',)  # student FK should not be changed directly via API
-        depth=1
+        fields = '__all__'
 
-
-
-
-class SubjectCompletionSerializer(serializers.Serializer):
-    subject_name = serializers.CharField()
-    completion_percentage = serializers.DecimalField(max_digits=5, decimal_places=2)
-
-
-
-
-class IncompleteTopicSerializer(serializers.Serializer):
-    topic_name = serializers.CharField()
-    subject_name = serializers.CharField()
-    chapter_name = serializers.CharField()
-    completion_percentage = serializers.DecimalField(max_digits=5, decimal_places=2)
-    last_accessed = serializers.DateTimeField()
-    
-
-
-
-
-class SubjectSerializer(serializers.ModelSerializer):
-    assigned_teacher_name = serializers.CharField(source='assigned_teacher.user.full_name', read_only=True)
-    class Meta:
-        model = Subject
-        fields = ['id', 'name', 'description', 'assigned_teacher_name']
-        
-
-
-
-
-class ContentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Content
-        fields = ['id', 'content_link', 'description', 'completed']
-
-
-
-
-
-
-class TopicWithProgressSerializer(serializers.ModelSerializer):
-    contents = serializers.SerializerMethodField()
-    completion_percentage = serializers.SerializerMethodField()
-    last_accessed = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Topic
-        fields = ['id', 'name', 'description', 'contents', 'completion_percentage', 'last_accessed']
-
-    def get_contents(self, topic):
-        contents = Content.objects.filter(topic=topic)
-        return ContentSerializer(contents, many=True).data
-
-    def get_completion_percentage(self, topic):
-        user = self.context.get('user')
-        progress = TopicProgress.objects.filter(topic=topic, student=user).first()
-        return progress.completion_percentage if progress else 0.0
-
-    def get_last_accessed(self, topic):
-        user = self.context.get('user')
-        progress = TopicProgress.objects.filter(topic=topic, student=user).first()
-        return progress.last_accessed if progress else None
-
-
-
-
-
-
-class ChapterWithTopicsSerializer(serializers.ModelSerializer):
-    topics = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Chapter
-        fields = ['id', 'name', 'description', 'topics']
-
-    def get_topics(self, chapter):
-        user = self.context.get('user')
-        assigned = AssignedChapterTopic.objects.filter(student__user=user, chapter=chapter).first()
-        if not assigned:
-            return []
-        topics = assigned.topics.all()
-        return TopicWithProgressSerializer(topics, many=True, context={'user': user}).data
-
-
-
-
-
-
-class SubjectDashboardResponseSerializer(serializers.Serializer):
-    subjects = SubjectCompletionSerializer(many=True)
-    recent_incomplete_topics = IncompleteTopicSerializer(many=True)
 
 

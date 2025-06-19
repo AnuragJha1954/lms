@@ -1,61 +1,99 @@
 from django.db import models
-from django.utils import timezone
 from users.models import CustomUser
-from v1.models import (
-    Class,
-    Chapter,
-    Topic,
-    Subject
-)
-from school.models import School
-
-class StudentSchool(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    student_name = models.CharField(max_length=255)
-    class_assigned = models.ForeignKey(Class, on_delete=models.CASCADE)
-    school = models.ForeignKey(School, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.student_name
-    
-    
-
+from school.models import SchoolProfile
 
 class StudentProfile(models.Model):
-    student_school = models.ForeignKey(StudentSchool, on_delete=models.CASCADE)
-    class_assigned = models.ForeignKey(Class, on_delete=models.CASCADE)
-    dob = models.DateField()
-    address = models.TextField()
-    phone = models.CharField(max_length=20)
-    gender = models.CharField(max_length=10)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='student_profile')
+    school = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE, related_name='students')
+    roll_number = models.CharField(max_length=50)
     guardian_name = models.CharField(max_length=255)
-    emergency_contact = models.CharField(max_length=20)
+    contact_number = models.CharField(max_length=20)
+    date_of_birth = models.DateField(blank=True, null=True)
+    gender = models.CharField(
+        max_length=10,
+        choices=[('male', 'Male'), ('female', 'Female'), ('other', 'Other')],
+        blank=True,
+        null=True
+    )
+    address = models.TextField(blank=True, null=True)
+    admission_date = models.DateField(blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='student_profiles/', blank=True, null=True)
 
     def __str__(self):
-        return f"{self.student_school.student_name}'s Profile"
-    
-    
+        return self.user.full_name
 
-class AssignedChapterTopic(models.Model):
-    student = models.ForeignKey(StudentSchool, on_delete=models.CASCADE)
-    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
-    topics = models.ManyToManyField(Topic)
+
+
+
+class StudentClassAssignment(models.Model):
+    student = models.OneToOneField(StudentProfile, on_delete=models.CASCADE, related_name='class_assignment')
+    class_model = models.ForeignKey('v1.ClassModel', on_delete=models.CASCADE, related_name='students')
+    assigned_date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('student', 'class_model')
 
     def __str__(self):
-        return f"{self.student.student_name} - {self.chapter.name}"
+        return f"{self.student.user.full_name} → {self.class_model}"
+
 
 
 
 
 class TopicProgress(models.Model):
-    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'role': 'student'})
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='topic_progress')
+    topic = models.ForeignKey('v1.Topic', on_delete=models.CASCADE, related_name='progress')
     is_completed = models.BooleanField(default=False)
-    completion_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    last_accessed = models.DateTimeField(default=timezone.now)
+    completion_percentage = models.FloatField(default=0.0)
+    last_accessed = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = ('student', 'topic')
 
     def __str__(self):
-        return f"{self.student.full_name} - {self.topic.name} - {self.completion_percentage}%"
+        return f"{self.student.user.full_name} → {self.topic.title} [{self.completion_percentage}%]"
+
+
+
+
+
+class ContentProgress(models.Model):
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='content_progress')
+    content = models.ForeignKey('v1.Content', on_delete=models.CASCADE, related_name='progress')
+    is_completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('student', 'content')
+
+    def __str__(self):
+        return f"{self.student.user.full_name} → {self.content.title} ({'✓' if self.is_completed else '✗'})"
+
+
+
+
+
+
+
+class StudentLoginActivity(models.Model):
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='login_activities')
+    login_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.user.full_name} logged in at {self.login_time}"
+
+
+
+
+
+
+class TopicAccessLog(models.Model):
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='topic_access_logs')
+    topic = models.ForeignKey('v1.Topic', on_delete=models.CASCADE, related_name='access_logs')
+    accessed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.user.full_name} accessed {self.topic.title} at {self.accessed_at}"
+
+
+

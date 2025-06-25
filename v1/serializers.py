@@ -3,7 +3,8 @@ from v1.models import (
     Content,
     Topic,
     Content,
-    Subject
+    Subject,
+    Chapter
 )
 from teachers.models import TeacherNote
 
@@ -78,6 +79,22 @@ class TeacherNoteSerializerV1(serializers.ModelSerializer):
     class Meta:
         model = TeacherNote
         fields = ['id', 'teacher_name', 'note_text', 'note_file', 'created_at']
+
+
+
+
+
+
+
+
+class ChapterCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chapter
+        fields = ['id', 'title', 'number', 'description']
+        read_only_fields = ['id']
+
+
+
 
 
 

@@ -12,9 +12,10 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('role', 'master_admin')
         extra_fields.setdefault('is_staff', True)
-        return self.create_user(email, password, role='master_admin', **extra_fields)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(email, password, **extra_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = [

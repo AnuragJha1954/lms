@@ -20,7 +20,7 @@ class ClassModel(models.Model):
 class Subject(models.Model):
     class_model = models.ForeignKey(ClassModel, on_delete=models.CASCADE, related_name='subjects')
     name = models.CharField(max_length=100)  # e.g., 'Mathematics', 'Science'
-    code = models.CharField(max_length=20, unique=True)
+    code = models.CharField(max_length=20, blank=True, null=True)  # Now optional
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):

@@ -7,6 +7,7 @@ from drf_yasg import openapi
 from .serializers import StudentCreateSerializer, ContentProgressSerializer, TopicProgressSerializer, LastAccessedTopicSerializer, StudentLastLoginSerializer, StudentProfileSerializer
 from students.models import ContentProgress, TopicProgress, TopicAccessLog, StudentLoginActivity, StudentProfile
 from v1.models import Content, Topic
+from users.models import CustomUser
 
 
 
@@ -19,8 +20,16 @@ from v1.models import Content, Topic
 )
 @api_view(['POST'])
 @permission_classes([AllowAny])
-def create_student(request):
-    serializer = StudentCreateSerializer(data=request.data, context={'request': request})
+def create_student(request, school_user_id):
+    try:
+        school_user = CustomUser.objects.get(id=school_user_id, role='school')
+        school = school_user.school_profile
+    except CustomUser.DoesNotExist:
+        return Response({"error": "School user not found."}, status=status.HTTP_404_NOT_FOUND)
+    except Exception:
+        return Response({"error": "School profile not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = StudentCreateSerializer(data=request.data, context={'school': school})
     if serializer.is_valid():
         student = serializer.save()
         return Response(StudentCreateSerializer(student).data, status=status.HTTP_201_CREATED)

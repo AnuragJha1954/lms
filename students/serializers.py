@@ -23,7 +23,7 @@ class StudentCreateSerializer(serializers.ModelSerializer):
         email = validated_data.pop('email')
         username = validated_data.pop('username')
         class_id = validated_data.pop('class_id')
-        school = self.context['request'].user.school_profile
+        school = self.context['school']
 
         user = CustomUser.objects.create_user(
             username=username,

@@ -7,8 +7,8 @@ urlpatterns = [
     path('<int:school_id>/teachers/<int:teacher_id>/delete/', delete_teacher, name='delete-teacher'),
     path('<int:school_id>/students/<int:student_id>/update/', update_student, name='update-student'),
     path('<int:school_id>/students/<int:student_id>/delete/', delete_student, name='delete-student'),
-    path('class/add/', add_class_with_subjects, name='add-class-subjects'),
+    path('class/add/<int:school_user_id>/', add_class_with_subjects, name='add-class-subjects'),
     path('subject/assign-teacher/', assign_teacher_to_subject, name='assign-teacher-subject'),
     path('class/assign-student/', assign_student_to_class, name='assign-student-class'),
-    path('profile/', manage_school_profile, name='school-profile'),
+    path('profile/<int:school_user_id>/', manage_school_profile, name='school-profile'),
 ]

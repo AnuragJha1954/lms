@@ -41,20 +41,20 @@ class SchoolRegistrationSerializer(serializers.ModelSerializer):
 
 class SubjectInputSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
-    code = serializers.CharField(max_length=20)
+    code = serializers.CharField(max_length=20, required=False, allow_blank=True)
     description = serializers.CharField(required=False, allow_blank=True)
 
+
 class ClassWithSubjectsSerializer(serializers.Serializer):
-    school_id = serializers.IntegerField()
     class_name = serializers.CharField(max_length=20)
     section = serializers.CharField(max_length=10)
-    academic_year = serializers.CharField(max_length=20)
+    academic_year = serializers.CharField(max_length=20, required=False, allow_blank=True)
     subjects = SubjectInputSerializer(many=True)
 
     def create(self, validated_data):
         subjects_data = validated_data.pop('subjects')
-        school_id = validated_data.pop('school_id')
-        class_model = ClassModel.objects.create(school_id=school_id, **validated_data)
+        school = self.context.get('school')
+        class_model = ClassModel.objects.create(school=school, **validated_data)
         for subject in subjects_data:
             Subject.objects.create(class_model=class_model, **subject)
         return class_model

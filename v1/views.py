@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
-from .serializers import TopicWithContentSerializer, SubjectListSerializer, TopicWithContentsSerializerV2, TeacherNoteSerializerV1
+from .serializers import TopicWithContentSerializer, SubjectListSerializer, TopicWithContentsSerializerV2, TeacherNoteSerializerV1, ChapterCreateSerializer
 from drf_yasg import openapi
 from v1.models import Subject, Chapter, Topic
 from teachers.models import TeacherNote
@@ -147,5 +147,38 @@ def get_teacher_notes_by_topic(request):
     notes = TeacherNote.objects.filter(topic_id=topic_id)
     serializer = TeacherNoteSerializerV1(notes, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
+
+
+
+
+@swagger_auto_schema(
+    method='post',
+    request_body=ChapterCreateSerializer,
+    responses={
+        201: openapi.Response(description="Chapter created successfully", schema=ChapterCreateSerializer),
+        400: "Validation Error",
+        404: "Subject not found"
+    },
+    operation_description="Create a chapter under a subject by providing subject_id in the URL."
+)
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def create_chapter(request, subject_id):
+    try:
+        subject = Subject.objects.get(id=subject_id)
+    except Subject.DoesNotExist:
+        return Response({"error": "Subject not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = ChapterCreateSerializer(data=request.data)
+    if serializer.is_valid():
+        chapter = serializer.save(subject=subject)
+        return Response(ChapterCreateSerializer(chapter).data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 

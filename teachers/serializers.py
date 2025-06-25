@@ -27,7 +27,7 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
         email = validated_data.pop('email')
         username = validated_data.pop('username')
         assigned_class_ids = validated_data.pop('assigned_class_ids')
-        school = self.context['request'].user.school_profile
+        school = self.context['school']
 
         user = CustomUser.objects.create_user(
             username=username,
@@ -40,7 +40,6 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
         teacher = TeacherProfile.objects.create(user=user, school=school, **validated_data)
         teacher.assigned_classes.set(ClassModel.objects.filter(id__in=assigned_class_ids))
         return teacher
-
 
 
 
@@ -73,5 +72,22 @@ class TeacherNoteSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at']
 
     def create(self, validated_data):
-        teacher = self.context['request'].user.teacher_profile
+        teacher = self.context['teacher']
         return TeacherNote.objects.create(teacher=teacher, **validated_data)
+
+
+
+
+
+class TeacherListSerializer(serializers.ModelSerializer):
+    full_name = serializers.CharField(source='user.full_name')
+    email = serializers.EmailField(source='user.email')
+
+    class Meta:
+        model = TeacherProfile
+        fields = [
+            'id', 'full_name', 'email', 'subject_specialization',
+            'phone_number', 'qualification', 'experience_years',
+            'gender', 'date_of_birth', 'profile_picture'
+        ]
+

@@ -163,12 +163,23 @@ def delete_student(request, school_id, student_id):
 @swagger_auto_schema(
     method='post',
     request_body=ClassWithSubjectsSerializer,
-    responses={201: "Class and subjects created", 400: "Bad request"}
+    responses={201: "Class and subjects created", 400: "Validation error"},
+    manual_parameters=[
+        openapi.Parameter('school_user_id', openapi.IN_PATH, description="School user ID", type=openapi.TYPE_INTEGER)
+    ]
 )
 @api_view(['POST'])
 @permission_classes([AllowAny])
-def add_class_with_subjects(request):
-    serializer = ClassWithSubjectsSerializer(data=request.data)
+def add_class_with_subjects(request, school_user_id):
+    try:
+        school_user = CustomUser.objects.get(id=school_user_id, role='school')
+        school = school_user.school_profile
+    except CustomUser.DoesNotExist:
+        return Response({"error": "School user not found."}, status=status.HTTP_404_NOT_FOUND)
+    except SchoolProfile.DoesNotExist:
+        return Response({"error": "School profile not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = ClassWithSubjectsSerializer(data=request.data, context={'school': school})
     if serializer.is_valid():
         created_class = serializer.save()
         return Response({"message": "Class and subjects created", "class_id": created_class.id}, status=status.HTTP_201_CREATED)
@@ -235,19 +246,25 @@ def assign_student_to_class(request):
 
 @swagger_auto_schema(
     method='get',
+    manual_parameters=[
+        openapi.Parameter('school_user_id', openapi.IN_PATH, description="User ID of the school", type=openapi.TYPE_INTEGER)
+    ],
     responses={200: SchoolProfileSerializer()}
 )
 @swagger_auto_schema(
     method='put',
     request_body=SchoolProfileSerializer,
-    responses={200: SchoolProfileSerializer(), 400: "Bad Request"}
+    responses={200: SchoolProfileSerializer(), 400: "Validation error", 404: "School not found"}
 )
 @api_view(['GET', 'PUT'])
 @permission_classes([AllowAny])
-def manage_school_profile(request):
+def manage_school_profile(request, school_user_id):
     try:
-        school_profile = request.user.school_profile
-    except Exception:
+        school_user = CustomUser.objects.get(id=school_user_id, role='school')
+        school_profile = school_user.school_profile
+    except CustomUser.DoesNotExist:
+        return Response({"error": "School user not found."}, status=status.HTTP_404_NOT_FOUND)
+    except SchoolProfile.DoesNotExist:
         return Response({"error": "School profile not found."}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':

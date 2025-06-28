@@ -7,26 +7,22 @@ from school.models import SchoolProfile
 class StudentCreateSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(write_only=True)
     email = serializers.EmailField(write_only=True)
-    username = serializers.CharField(write_only=True)
-    class_id = serializers.IntegerField(write_only=True)
+
 
     class Meta:
         model = StudentProfile
         fields = [
-            'full_name', 'username', 'email', 'roll_number', 'guardian_name',
+            'full_name',  'email', 'roll_number', 'guardian_name',
             'contact_number', 'date_of_birth', 'gender', 'address',
-            'admission_date', 'profile_picture', 'class_id'
+            'admission_date', 'profile_picture'
         ]
 
     def create(self, validated_data):
         full_name = validated_data.pop('full_name')
         email = validated_data.pop('email')
-        username = validated_data.pop('username')
-        class_id = validated_data.pop('class_id')
         school = self.context['school']
 
         user = CustomUser.objects.create_user(
-            username=username,
             email=email,
             password='demo@123',
             full_name=full_name,
@@ -34,7 +30,6 @@ class StudentCreateSerializer(serializers.ModelSerializer):
         )
 
         student = StudentProfile.objects.create(user=user, school=school, **validated_data)
-        StudentClassAssignment.objects.create(student=student, class_model_id=class_id)
         return student
 
 

@@ -92,8 +92,7 @@ def login_view(request):
                 "id": user.id,
                 "email": user.email,
                 "role": user.role,
-                "account_type": user.account_type,
-                "name": user.get_full_name() if hasattr(user, 'get_full_name') else user.username,
+                "name": user.full_name,  # ✅ Fixed line
                 "profile": profile_data
             }
         }, status=status.HTTP_200_OK)

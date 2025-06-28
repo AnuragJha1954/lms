@@ -7,12 +7,11 @@ from school.models import SchoolProfile
 class SchoolRegistrationSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(write_only=True)
     email = serializers.EmailField(write_only=True)
-    username = serializers.CharField(write_only=True)
 
     class Meta:
         model = SchoolProfile
         fields = [
-            'full_name', 'username', 'email',
+            'full_name', 'email',
             'name', 'address', 'phone_number',
             'registration_number', 'board_affiliation',
             'principal_name', 'established_year',
@@ -22,10 +21,8 @@ class SchoolRegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         full_name = validated_data.pop('full_name')
         email = validated_data.pop('email')
-        username = validated_data.pop('username')
 
         user = CustomUser.objects.create_user(
-            username=username,
             email=email,
             password='demo@123',
             full_name=full_name,
@@ -34,6 +31,7 @@ class SchoolRegistrationSerializer(serializers.ModelSerializer):
 
         school_profile = SchoolProfile.objects.create(user=user, **validated_data)
         return school_profile
+
 
 
 

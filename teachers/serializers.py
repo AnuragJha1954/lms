@@ -8,7 +8,6 @@ from v1.models import ClassModel
 class TeacherCreateSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(write_only=True)
     email = serializers.EmailField(write_only=True)
-    username = serializers.CharField(write_only=True)
     assigned_class_ids = serializers.ListField(
         child=serializers.IntegerField(), write_only=True
     )
@@ -16,7 +15,7 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeacherProfile
         fields = [
-            'full_name', 'username', 'email',
+            'full_name', 'email',
             'subject_specialization', 'phone_number', 'qualification',
             'date_of_birth', 'gender', 'address',
             'experience_years', 'profile_picture', 'assigned_class_ids'
@@ -25,12 +24,10 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         full_name = validated_data.pop('full_name')
         email = validated_data.pop('email')
-        username = validated_data.pop('username')
         assigned_class_ids = validated_data.pop('assigned_class_ids')
         school = self.context['school']
 
         user = CustomUser.objects.create_user(
-            username=username,
             email=email,
             password='demo@123',
             full_name=full_name,

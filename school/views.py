@@ -10,7 +10,7 @@ from teachers.models import TeacherProfile
 from students.models import StudentProfile
 from teachers.serializers import TeacherCreateSerializer
 from students.serializers import StudentCreateSerializer
-from .serializers import SchoolRegistrationSerializer, ClassWithSubjectsSerializer, TeacherSubjectAssignSerializer, AssignStudentToClassSerializer, SchoolProfileSerializer
+from .serializers import SchoolRegistrationSerializer, ClassWithSubjectsSerializer, TeacherSubjectAssignSerializer, AssignStudentToClassSerializer, SchoolProfileSerializer, StudentProfileSerializer
 from users.models import CustomUser
 
 
@@ -277,3 +277,42 @@ def manage_school_profile(request, school_user_id):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+
+
+
+
+@swagger_auto_schema(
+    method='get',
+    manual_parameters=[
+        openapi.Parameter(
+            'school_id',
+            openapi.IN_PATH,
+            description="ID of the school",
+            type=openapi.TYPE_INTEGER,
+            required=True
+        )
+    ],
+    responses={
+        200: StudentProfileSerializer(many=True),
+        404: 'School not found'
+    },
+    operation_description="Retrieve all students belonging to a specific school by school ID."
+)
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_students_by_school(request, school_id):
+    try:
+        # Check if school exists
+        school = SchoolProfile.objects.get(id=school_id)
+    except SchoolProfile.DoesNotExist:
+        return Response({'error': 'School not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    # Get all students for this school
+    students = StudentProfile.objects.filter(school=school)
+
+    # Serialize student data
+    serializer = StudentProfileSerializer(students, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+

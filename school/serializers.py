@@ -105,3 +105,34 @@ class SchoolProfileSerializer(serializers.ModelSerializer):
             'website', 'logo'
         ]
         read_only_fields = ['id', 'registration_number']  # prevent editing this if needed
+
+
+
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'email', 'full_name', 'role']
+
+class StudentProfileSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer()
+
+    class Meta:
+        model = StudentProfile
+        fields = [
+            'id',
+            'user',
+            'school',
+            'roll_number',
+            'guardian_name',
+            'contact_number',
+            'date_of_birth',
+            'gender',
+            'address',
+            'admission_date',
+            'profile_picture'
+        ]
+        depth =1
+        ref_name = "Schoo_Student_profile_serializer"
+

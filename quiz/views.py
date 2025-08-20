@@ -233,3 +233,89 @@ def get_quiz_detail_with_questions(request, quiz_id):
 
 
 
+@swagger_auto_schema(
+    method='get',
+    operation_summary="Get quizzes for a student",
+    operation_description="Fetches all quizzes assigned to the student based on their topic and teacher mappings.",
+    responses={
+        200: openapi.Response(
+            description="List of quizzes",
+            examples={
+                "application/json": {
+                    "student_id": 5,
+                    "quizzes": [
+                        {
+                            "id": 1,
+                            "title": "Algebra Basics",
+                            "description": "Quiz on Algebra fundamentals",
+                            "quiz_type": "topic",
+                            "topic": 3,
+                            "teacher": None,
+                            "created_at": "2025-07-24T12:00:00Z",
+                            "is_active": True
+                        },
+                        {
+                            "id": 2,
+                            "title": "Science MCQs",
+                            "description": "Teacher-based quiz",
+                            "quiz_type": "teacher",
+                            "topic": 3,
+                            "teacher": 9,
+                            "created_at": "2025-07-22T08:30:00Z",
+                            "is_active": True
+                        }
+                    ]
+                }
+            }
+        ),
+        404: "Student not found"
+    }
+)
+@api_view(['GET'])
+def get_quizzes_for_student(request, student_id):
+    try:
+        student_profile = StudentProfile.objects.get(id=student_id)
+        student_user = student_profile.user
+    except StudentProfile.DoesNotExist:
+        return Response({"error": "Student not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    # Get the class assigned to this student
+    try:
+        student_class = student_profile.class_assignment.class_model
+    except:
+        return Response({"error": "Student not assigned to a class."}, status=status.HTTP_404_NOT_FOUND)
+
+    # Get quizzes where the topic's subject's class matches the student's class
+    quizzes = Quiz.objects.filter(
+        quiz_type='topic',
+        topic__chapter__subject__class_model=student_class,
+        is_active=True
+    )
+
+    # You can customize this as needed
+    quiz_list = [
+        {
+            "id": quiz.id,
+            "title": quiz.title,
+            "description": quiz.description,
+            "topic": quiz.topic.title,
+            "subject": quiz.topic.chapter.subject.name,
+            "chapter": quiz.topic.chapter.title,
+            "quiz_type": quiz.get_quiz_type_display(),
+            "created_at": quiz.created_at,
+        }
+        for quiz in quizzes
+    ]
+
+    return Response(quiz_list, status=status.HTTP_200_OK)
+
+
+
+
+
+
+
+
+
+
+

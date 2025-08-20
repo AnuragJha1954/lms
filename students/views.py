@@ -5,7 +5,7 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from .serializers import StudentCreateSerializer, ContentProgressSerializer, TopicProgressSerializer, LastAccessedTopicSerializer, StudentLastLoginSerializer, StudentProfileSerializer
-from students.models import ContentProgress, TopicProgress, TopicAccessLog, StudentLoginActivity, StudentProfile
+from students.models import ContentProgress, TopicProgress, TopicAccessLog, StudentLoginActivity, StudentProfile, StudentClassAssignment
 from v1.models import Content, Topic
 from users.models import CustomUser
 
@@ -175,12 +175,54 @@ def get_last_login_info(request, student_id):
 
 @swagger_auto_schema(
     method='get',
-    responses={200: StudentProfileSerializer}
+    responses={
+        200: openapi.Response(
+            description="Student profile retrieved successfully.",
+            examples={
+                "application/json": {
+                    "id": 1,
+                    "user": 5,
+                    "school": 2,
+                    "roll_number": "STU123",
+                    "guardian_name": "Ravi Kumar",
+                    "contact_number": "9876543210",
+                    "date_of_birth": "2008-05-15",
+                    "gender": "Male",
+                    "address": "123 Green Avenue, Delhi",
+                    "full_name": "Amit Sharma",
+                    "gpa": 8.5,
+                    "class": "10-A"
+                }
+            }
+        ),
+        404: "Student not found"
+    }
 )
 @swagger_auto_schema(
     method='put',
     request_body=StudentProfileSerializer,
-    responses={200: StudentProfileSerializer}
+    responses={
+        200: openapi.Response(
+            description="Student profile updated successfully.",
+            examples={
+                "application/json": {
+                    "id": 1,
+                    "user": 5,
+                    "school": 2,
+                    "roll_number": "STU123",
+                    "guardian_name": "Ravi Kumar",
+                    "contact_number": "9876543210",
+                    "date_of_birth": "2008-05-15",
+                    "gender": "Male",
+                    "address": "123 Green Avenue, Delhi",
+                    "full_name": "Amit Sharma",
+                    "gpa": 8.5,
+                    "class": "10-A"
+                }
+            }
+        ),
+        400: "Validation Error"
+    }
 )
 @api_view(['GET', 'PUT'])
 @permission_classes([AllowAny])
@@ -192,11 +234,37 @@ def manage_student_profile(request, student_id):
 
     if request.method == 'GET':
         serializer = StudentProfileSerializer(student_profile)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        data = serializer.data
+
+        # Add user full name
+        data['full_name'] = student_profile.user.full_name
+
+        # Add hardcoded GPA
+        data['gpa'] = 8.5
+
+        # Add class name
+        try:
+            assignment = StudentClassAssignment.objects.get(student=student_profile)
+            data['class'] = assignment.class_model.class_name  # Adjust if your field name is different
+        except StudentClassAssignment.DoesNotExist:
+            data['class'] = None
+
+        return Response(data, status=status.HTTP_200_OK)
 
     elif request.method == 'PUT':
         serializer = StudentProfileSerializer(student_profile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+
+            # Re-fetch for updated data
+            updated_data = serializer.data
+            updated_data['full_name'] = student_profile.user.full_name
+            updated_data['gpa'] = 8.5
+            try:
+                assignment = StudentClassAssignment.objects.get(student=student_profile)
+                updated_data['class'] = assignment.class_model.class_name
+            except StudentClassAssignment.DoesNotExist:
+                updated_data['class'] = None
+
+            return Response(updated_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

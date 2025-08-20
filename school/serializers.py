@@ -133,5 +133,6 @@ class StudentProfileSerializer(serializers.ModelSerializer):
             'admission_date',
             'profile_picture'
         ]
+        depth =1
         ref_name = "Schoo_Student_profile_serializer"
 

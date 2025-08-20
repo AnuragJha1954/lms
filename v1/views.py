@@ -5,8 +5,11 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from .serializers import TopicWithContentSerializer, SubjectListSerializer, TopicWithContentsSerializerV2, TeacherNoteSerializerV1, ChapterCreateSerializer
 from drf_yasg import openapi
-from v1.models import Subject, Chapter, Topic
+from v1.models import Subject, Chapter, Topic, ClassModel
 from teachers.models import TeacherNote
+from users.models import CustomUser
+from school.models import SchoolProfile
+from students.models import StudentClassAssignment
 
 
 
@@ -178,6 +181,97 @@ def create_chapter(request, subject_id):
         chapter = serializer.save(subject=subject)
         return Response(ChapterCreateSerializer(chapter).data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
+
+@swagger_auto_schema(
+    method='get',
+    manual_parameters=[
+        openapi.Parameter(
+            'school_user_id',
+            openapi.IN_PATH,
+            description="ID of the school user",
+            type=openapi.TYPE_INTEGER
+        ),
+    ],
+    responses={
+        200: openapi.Response(
+            description="List of classes with subjects",
+            examples={
+                "application/json": {
+                    "status": True,
+                    "classes": [
+                        {
+                            "class_name": "Class 10",
+                            "section": "A",
+                            "academic_year": "2024-2025",
+                            "subjects": [
+                                {"id": 1, "name": "Mathematics"},
+                                {"id": 2, "name": "Science"}
+                            ]
+                        }
+                    ]
+                }
+            }
+        ),
+        404: openapi.Response(
+            description="School not found or no classes available.",
+            examples={
+                "application/json": {
+                    "status": False,
+                    "message": "School not found"
+                }
+            }
+        ),
+    }
+)
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_classes_by_school(request, school_user_id):
+    try:
+        school_user = CustomUser.objects.get(id=school_user_id)
+        school = SchoolProfile.objects.get(user=school_user)
+    except (CustomUser.DoesNotExist, SchoolProfile.DoesNotExist):
+        return Response({"status": False, "message": "School not found"}, status=404)
+
+    classes = ClassModel.objects.filter(school=school)
+    class_list = []
+
+    total_students = 0
+
+    for class_obj in classes:
+        subjects = Subject.objects.filter(class_model=class_obj)
+        subject_list = [{"id": sub.id, "name": sub.name} for sub in subjects]
+
+        # Count students in this class
+        student_count = StudentClassAssignment.objects.filter(class_model=class_obj).count()
+        total_students += student_count
+
+        class_list.append({
+            "class_name": class_obj.class_name,
+            "section": class_obj.section,
+            "academic_year": class_obj.academic_year,
+            "subjects": subject_list,
+            "total_students": student_count
+        })
+
+    total_classes = classes.count()
+    avg_students = total_students / total_classes if total_classes > 0 else 0
+
+    return Response({
+        "status": True,
+        "classes": class_list,
+        "total_classes": total_classes,
+        "total_students": total_students,
+        "average_students_per_class": avg_students,
+        "subject_assignments": "34"  # hardcoded key
+    })
+
 
 
 

@@ -1,14 +1,15 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from .serializers import StudentCreateSerializer, ContentProgressSerializer, TopicProgressSerializer, LastAccessedTopicSerializer, StudentLastLoginSerializer, StudentProfileSerializer
-from students.models import ContentProgress, TopicProgress, TopicAccessLog, StudentLoginActivity, StudentProfile, StudentClassAssignment
-from v1.models import Content, Topic
-from users.models import CustomUser
 
+from .serializers import ChapterSerializer, StudentCreateSerializer, ContentProgressSerializer, TopicProgressSerializer, LastAccessedTopicSerializer, StudentLastLoginSerializer, StudentProfileSerializer, TopicSerializer, TopicWithContentSerializer, GetContentSerializer
+from students.models import ContentProgress, TopicProgress, TopicAccessLog, StudentLoginActivity, StudentProfile, StudentClassAssignment
+from v1.models import Content, Topic, Subject, Chapter
+from users.models import CustomUser
+from datetime import timedelta
 
 
 
@@ -268,3 +269,242 @@ def manage_student_profile(request, student_id):
 
             return Response(updated_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+
+
+
+# 1. Get Subjects for Student
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def get_my_subjects(request):
+    try:
+        class_assignment = StudentClassAssignment.objects.get(student__user=request.user)
+    except StudentClassAssignment.DoesNotExist:
+        return Response({"error": "Student not assigned to any class"}, status=404)
+
+    subjects = Subject.objects.filter(class_model=class_assignment.class_model)
+    data = [
+        {"id": s.id, "name": s.name, "code": s.code, "description": s.description}
+        for s in subjects
+    ]
+    return Response(data)
+
+
+# 2. Get All Chapters for a Subject
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def get_subject_chapters(request, subject_id):
+    chapters = Chapter.objects.filter(subject_id=subject_id).order_by("number")
+    data = [
+        {"id": c.id, "title": c.title, "number": c.number, "description": c.description}
+        for c in chapters
+    ]
+    return Response(data)
+
+
+# 3. Get Topics + Contents for a Chapter
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def get_chapter_topics(request, chapter_id):
+    topics = Topic.objects.filter(chapter_id=chapter_id).order_by("number")
+    data = []
+    for t in topics:
+        contents = Content.objects.filter(topic=t, is_active=True).order_by("order")
+        data.append({
+            "id": t.id,
+            "title": t.title,
+            "number": t.number,
+            "description": t.description,
+            "is_completed": t.is_completed,
+            "contents": [
+                {
+                    "id": c.id,
+                    "title": c.title,
+                    "video_link": c.video_link,
+                    "text_content": c.text_content,
+                    "order": c.order,
+                    "is_active": c.is_active,
+                    "is_completed": c.is_completed,
+                }
+                for c in contents
+            ]
+        })
+    return Response(data)
+
+
+@swagger_auto_schema(
+    method='get',
+    operation_summary="Get Student Dashboard",
+    operation_description="""
+    Returns student dashboard data including:
+    1. Four recently accessed topics with completion %
+    2. List of all subjects with completion %
+    3. Current learning streak (consecutive days logged in)
+    4. Hardcoded 3 reports
+    5. Hardcoded list of badges
+    """,
+    responses={200: openapi.Response(
+        description="Dashboard data",
+        examples={
+            "application/json": {
+                "recent_topics": [
+                    {"topic": "Algebra Basics", "chapter": "Mathematics", "completion_percentage": 50.0, "last_accessed": "2025-09-13T10:00:00Z"}
+                ],
+                "subjects": [
+                    {"subject": "Mathematics", "completion_percentage": 70.5}
+                ],
+                "learning_streak": 5,
+                "reports": ["Performance Report", "Attendance Report", "Progress Report"],
+                "badges": ["Concept Conqueror", "Chapter Champion", "Subject Specialist"]
+            }
+        }
+    )}
+)
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def student_dashboard(request):
+    user = request.user
+
+    try:
+        student = user.student_profile
+    except StudentProfile.DoesNotExist:
+        return Response({"error": "Student profile not found"}, status=404)
+
+    # 1. Recently accessed topics (limit 4)
+    recent_topics_qs = TopicProgress.objects.filter(student=student).order_by("-last_accessed")[:4]
+    recent_topics = [
+        {
+            "topic": tp.topic.title,
+            "chapter": tp.topic.chapter.title,
+            "completion_percentage": tp.completion_percentage,
+            "last_accessed": tp.last_accessed,
+        }
+        for tp in recent_topics_qs
+    ]
+
+    # 2. Subjects with completion %
+    subjects_qs = Subject.objects.filter(student=student)
+    subjects = []
+    for subj in subjects_qs:
+        total_topics = Topic.objects.filter(chapter__subject=subj).count()
+        completed_topics = TopicProgress.objects.filter(student=student, topic__chapter__subject=subj, is_completed=True).count()
+        completion_percentage = (completed_topics / total_topics * 100) if total_topics > 0 else 0
+        subjects.append({
+            "subject": subj.name,
+            "completion_percentage": round(completion_percentage, 2),
+        })
+
+    # 3. Learning streak
+    streak = 0
+    login_dates = StudentLoginActivity.objects.filter(student=student).order_by("-login_time").values_list("login_time", flat=True)
+
+    if login_dates:
+        streak = 1
+        prev_date = login_dates[0].date()
+        for login in login_dates[1:]:
+            login_date = login.date()
+            if prev_date - login_date == timedelta(days=1):
+                streak += 1
+                prev_date = login_date
+            elif prev_date == login_date:
+                continue
+            else:
+                break
+
+    # 4. Hardcoded reports
+    reports = ["Performance Report", "Attendance Report", "Progress Report"]
+
+    # 5. Hardcoded badges (names only)
+    badges = [
+        "Concept Conqueror",
+        "Chapter Champion",
+        "Subject Specialist",
+        "Streak Master",
+        "Time Traveller",
+        "Quiz Warrior",
+        "First Step",
+        "Halfway Hero",
+        "Final Frontier",
+        "Comeback Kid",
+    ]
+
+    return Response({
+        "recent_topics": recent_topics,
+        "subjects": subjects,
+        "learning_streak": streak,
+        "reports": reports,
+        "badges": badges,
+    })
+    
+    
+
+
+
+# 1. Get all chapters of a subject
+@swagger_auto_schema(
+    method="get",
+    responses={200: ChapterSerializer(many=True)},
+    operation_description="Get all chapters of a subject"
+)
+@api_view(["GET"])
+@permission_classes([])
+def get_chapters_of_subject(request, subject_id):
+    try:
+        chapters = Chapter.objects.filter(subject_id=subject_id)
+    except Subject.DoesNotExist:
+        return Response({"error": "Subject not found"}, status=status.HTTP_404_NOT_FOUND)
+    serializer = ChapterSerializer(chapters, many=True)
+    return Response(serializer.data)
+
+
+# 2. Get all topics in a chapter
+@swagger_auto_schema(
+    method="get",
+    responses={200: TopicSerializer(many=True)},
+    operation_description="Get all topics in a chapter"
+)
+@api_view(["GET"])
+@permission_classes([])
+def get_topics_of_chapter(request, chapter_id):
+    try:
+        topics = Topic.objects.filter(chapter_id=chapter_id)
+    except Chapter.DoesNotExist:
+        return Response({"error": "Chapter not found"}, status=status.HTTP_404_NOT_FOUND)
+    serializer = TopicSerializer(topics, many=True)
+    return Response(serializer.data)
+
+
+# 3. Get all content of a topic
+@swagger_auto_schema(
+    method="get",
+    responses={200: GetContentSerializer(many=True)},
+    operation_description="Get all content of a topic"
+)
+@api_view(["GET"])
+@permission_classes([])
+def get_content_of_topic(request, topic_id):
+    try:
+        contents = Content.objects.filter(topic_id=topic_id)
+    except Topic.DoesNotExist:
+        return Response({"error": "Topic not found"}, status=status.HTTP_404_NOT_FOUND)
+    serializer = GetContentSerializer(contents, many=True)
+    return Response(serializer.data)
+
+
+# 4. Get all topics with content for a chapter
+@swagger_auto_schema(
+    method="get",
+    responses={200: TopicWithContentSerializer(many=True)},
+    operation_description="Get all topics with their content for a chapter"
+)
+@api_view(["GET"])
+@permission_classes([])
+def get_topics_with_content_for_chapter(request, chapter_id):
+    try:
+        topics = Topic.objects.filter(chapter_id=chapter_id)
+    except Chapter.DoesNotExist:
+        return Response({"error": "Chapter not found"}, status=status.HTTP_404_NOT_FOUND)
+    serializer = TopicWithContentSerializer(topics, many=True)
+    return Response(serializer.data)

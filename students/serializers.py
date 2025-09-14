@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from users.models import CustomUser
 from students.models import StudentProfile, StudentClassAssignment, TopicProgress, ContentProgress, TopicAccessLog, StudentLoginActivity
-from v1.models import ClassModel
+from v1.models import ClassModel,Chapter,Subject,Topic,Content
 from school.models import SchoolProfile
 
 class StudentCreateSerializer(serializers.ModelSerializer):
@@ -85,3 +85,24 @@ class StudentProfileSerializer(serializers.ModelSerializer):
 
 
 
+class ChapterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chapter
+        fields = ["id", "name", "description"]
+
+class TopicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Topic
+        fields = ["id", "name", "description"]
+
+class GetContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Content
+        fields = ["id", "title", "content_link", "completed"]
+
+class TopicWithContentSerializer(serializers.ModelSerializer):
+    contents = GetContentSerializer(many=True, source="content_set")
+
+    class Meta:
+        model = Topic
+        fields = ["id", "name", "description", "contents"]

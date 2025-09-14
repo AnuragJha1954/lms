@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'teachers',
     'school',
     'quiz',
+    'lms'
     'users',
     'userauth',
     'drf_yasg',

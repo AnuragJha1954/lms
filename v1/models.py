@@ -1,5 +1,6 @@
 from django.db import models
 from school.models import SchoolProfile
+from students.models import StudentProfile
 from teachers.models import TeacherProfile
 
 class ClassModel(models.Model):
@@ -18,13 +19,17 @@ class ClassModel(models.Model):
 
 
 class Subject(models.Model):
-    class_model = models.ForeignKey(ClassModel, on_delete=models.CASCADE, related_name='subjects')
+    student = models.ForeignKey(
+        StudentProfile,
+        on_delete=models.CASCADE,
+        related_name='subjects'
+    )
     name = models.CharField(max_length=100)  # e.g., 'Mathematics', 'Science'
-    code = models.CharField(max_length=20, blank=True, null=True)  # Now optional
+    code = models.CharField(max_length=20, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.name} ({self.class_model})"
+        return f"{self.name} ({self.student.user.full_name})"
 
 
 

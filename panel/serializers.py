@@ -1,6 +1,14 @@
 from rest_framework import serializers
-from v1.models import Subject, Chapter, Topic, Content
+from v1.models import Subject, Chapter, Topic, Content, ClassModel
 from students.models import StudentProfile
+
+
+
+
+class ClassModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassModel
+        fields = ['id', 'class_name', 'section', 'academic_year']
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:

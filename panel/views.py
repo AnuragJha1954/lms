@@ -5,8 +5,8 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from v1.models import Subject, Chapter, Topic, Content
-from .serializers import SubjectSerializer, ChapterSerializer, TopicSerializer, ContentSerializer, AssignStudentSerializer
+from v1.models import Subject, Chapter, Topic, Content, ClassModel
+from .serializers import SubjectSerializer, ChapterSerializer, TopicSerializer, ContentSerializer, AssignStudentSerializer, ClassModelSerializer
 
 # ----------- SUBJECT CRUD -----------
 
@@ -202,4 +202,93 @@ def assign_students_to_subject(request, subject_id):
         serializer.save(subject=subject)
         return Response({"message": "Students assigned successfully"}, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+# Create a class
+@swagger_auto_schema(
+    method='post',
+    request_body=ClassModelSerializer,
+    responses={201: ClassModelSerializer, 400: 'Bad Request'}
+)
+@api_view(['POST'])
+def create_class(request):
+    serializer = ClassModelSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# List all classes
+@swagger_auto_schema(
+    method='get',
+    responses={200: ClassModelSerializer(many=True)}
+)
+@api_view(['GET'])
+def list_classes(request):
+    classes = ClassModel.objects.all()
+    serializer = ClassModelSerializer(classes, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# Retrieve a single class by ID
+@swagger_auto_schema(
+    method='get',
+    responses={200: ClassModelSerializer, 404: 'Not Found'}
+)
+@api_view(['GET'])
+def retrieve_class(request, class_id):
+    try:
+        cls = ClassModel.objects.get(id=class_id)
+    except ClassModel.DoesNotExist:
+        return Response({"error": "Class not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = ClassModelSerializer(cls)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# Update a class
+@swagger_auto_schema(
+    method='put',
+    request_body=ClassModelSerializer,
+    responses={200: ClassModelSerializer, 400: 'Bad Request', 404: 'Not Found'}
+)
+@swagger_auto_schema(
+    method='patch',
+    request_body=ClassModelSerializer,
+    responses={200: ClassModelSerializer, 400: 'Bad Request', 404: 'Not Found'}
+)
+@api_view(['PUT', 'PATCH'])
+def update_class(request, class_id):
+    try:
+        cls = ClassModel.objects.get(id=class_id)
+    except ClassModel.DoesNotExist:
+        return Response({"error": "Class not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = ClassModelSerializer(cls, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Delete a class
+@swagger_auto_schema(
+    method='delete',
+    responses={204: 'No Content', 404: 'Not Found'}
+)
+@api_view(['DELETE'])
+def delete_class(request, class_id):
+    try:
+        cls = ClassModel.objects.get(id=class_id)
+    except ClassModel.DoesNotExist:
+        return Response({"error": "Class not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    cls.delete()
+    return Response({"message": "Class deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
 

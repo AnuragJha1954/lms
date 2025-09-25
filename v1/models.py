@@ -4,7 +4,7 @@ from students.models import StudentProfile
 from teachers.models import TeacherProfile
 
 class ClassModel(models.Model):
-    school = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE, related_name='classes')
+    school = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE, related_name='classes', blank=True, null=True)
     class_name = models.CharField(max_length=20)  # e.g., 'Class 10', 'Grade 6'
     section = models.CharField(max_length=10)     # e.g., 'A', 'B'
     academic_year = models.CharField(max_length=20)  # e.g., '2024-2025'

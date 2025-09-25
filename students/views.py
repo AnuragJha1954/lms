@@ -7,7 +7,7 @@ from drf_yasg import openapi
 
 from .serializers import ChapterSerializer, StudentCreateSerializer, ContentProgressSerializer, TopicProgressSerializer, LastAccessedTopicSerializer, StudentLastLoginSerializer, StudentProfileSerializer, TopicSerializer, TopicWithContentSerializer, GetContentSerializer
 from students.models import ContentProgress, TopicProgress, TopicAccessLog, StudentLoginActivity, StudentProfile, StudentClassAssignment
-from v1.models import Content, Topic, Subject, Chapter
+from v1.models import Content, Topic, Subject, Chapter, ClassModel
 from users.models import CustomUser
 from datetime import timedelta
 
@@ -109,8 +109,11 @@ def mark_topic_progress(request):
 )
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def get_last_accessed_topics(request):
-    student = request.user.student_profile
+def get_last_accessed_topics(request, student_id):
+    try:
+        student = StudentProfile.objects.get(user_id=student_id)
+    except StudentProfile.DoesNotExist:
+        return Response({"error": "Student profile not found"}, status=status.HTTP_404_NOT_FOUND)
 
     topic_progress_qs = TopicProgress.objects.filter(
         student=student,
@@ -364,11 +367,9 @@ def get_chapter_topics(request, chapter_id):
 )
 @api_view(["GET"])
 @permission_classes([AllowAny])
-def student_dashboard(request):
-    user = request.user
-
+def student_dashboard(request, user_id):
     try:
-        student = user.student_profile
+        student = StudentProfile.objects.get(user_id=user_id)
     except StudentProfile.DoesNotExist:
         return Response({"error": "Student profile not found"}, status=404)
 
@@ -385,16 +386,29 @@ def student_dashboard(request):
     ]
 
     # 2. Subjects with completion %
-    subjects_qs = Subject.objects.filter(student=student)
+    # 2. Subjects with completion %
+    subjects_qs = student.subjects.all()  # Related name on Subject: 'subjects'
     subjects = []
+
     for subj in subjects_qs:
+        # Total number of topics under this subject
         total_topics = Topic.objects.filter(chapter__subject=subj).count()
-        completed_topics = TopicProgress.objects.filter(student=student, topic__chapter__subject=subj, is_completed=True).count()
+
+        # Number of topics the student has completed
+        completed_topics = TopicProgress.objects.filter(
+            student=student,
+            topic__chapter__subject=subj,
+            is_completed=True
+        ).count()
+
+        # Completion percentage
         completion_percentage = (completed_topics / total_topics * 100) if total_topics > 0 else 0
+
         subjects.append({
             "subject": subj.name,
             "completion_percentage": round(completion_percentage, 2),
         })
+
 
     # 3. Learning streak
     streak = 0
@@ -416,7 +430,7 @@ def student_dashboard(request):
     # 4. Hardcoded reports
     reports = ["Performance Report", "Attendance Report", "Progress Report"]
 
-    # 5. Hardcoded badges (names only)
+    # 5. Hardcoded badges
     badges = [
         "Concept Conqueror",
         "Chapter Champion",
@@ -437,6 +451,7 @@ def student_dashboard(request):
         "reports": reports,
         "badges": badges,
     })
+
     
     
 

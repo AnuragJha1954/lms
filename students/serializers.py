@@ -88,21 +88,22 @@ class StudentProfileSerializer(serializers.ModelSerializer):
 class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chapter
-        fields = ["id", "name", "description"]
+        fields = ["id", "title", "number", "description"]  # match model fields
 
 class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
-        fields = ["id", "name", "description"]
+        fields = ["id", "title", "number", "description", "is_completed"]
 
 class GetContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Content
-        fields = ["id", "title", "content_link", "completed"]
+        fields = ["id", "title", "video_link", "text_content", "order", "is_active", "is_completed"]
 
 class TopicWithContentSerializer(serializers.ModelSerializer):
-    contents = GetContentSerializer(many=True, source="content_set")
+    contents = GetContentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Topic
-        fields = ["id", "name", "description", "contents"]
+        fields = ["id", "title", "number", "description", "is_completed", "contents"]
+        ref_name = "StudentTopicWithContent"  # <-- unique name for Swagger

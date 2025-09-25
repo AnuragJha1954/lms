@@ -71,20 +71,22 @@ def login_view(request):
                 "profile_picture": profile.profile_picture.url if profile.profile_picture else None
             }
 
-        elif user.role == 'student' and hasattr(user, 'student_profile'):
-            profile = user.student_profile
-            profile_data = {
-                "id": profile.id,
-                "school_id": profile.school.id,
-                "roll_number": profile.roll_number,
-                "guardian_name": profile.guardian_name,
-                "contact_number": profile.contact_number,
-                "date_of_birth": profile.date_of_birth,
-                "gender": profile.gender,
-                "address": profile.address,
-                "admission_date": profile.admission_date,
-                "profile_picture": profile.profile_picture.url if profile.profile_picture else None
-            }
+        elif user.role == 'student':
+            profile = getattr(user, 'student_profile', None)
+            if profile:
+                profile_data = {
+                    "id": profile.id,
+                    "school_id": profile.school.id if profile.school else None,
+                    "roll_number": profile.roll_number,
+                    "guardian_name": profile.guardian_name,
+                    "contact_number": profile.contact_number,
+                    "date_of_birth": profile.date_of_birth,
+                    "gender": profile.gender,
+                    "address": profile.address,
+                    "admission_date": profile.admission_date,
+                    "profile_picture": profile.profile_picture.url if profile.profile_picture else None
+                }
+
 
         return Response({
             "token": token.key,

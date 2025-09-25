@@ -4,7 +4,8 @@ from .views import (
     chapter_list_create, chapter_detail,
     topic_list_create, topic_detail,
     content_list_create, content_detail,
-    assign_students_to_subject
+    assign_students_to_subject,
+    create_class, list_classes, retrieve_class, update_class, delete_class
 )
 
 urlpatterns = [
@@ -25,4 +26,10 @@ urlpatterns = [
     path("contents/<int:pk>/", content_detail, name="content-detail"),
     
     path("subjects/<int:subject_id>/assign-students/", assign_students_to_subject, name="assign-students-to-subject"),
+    
+    path('classes/', list_classes, name='list-classes'),
+    path('classes/create/', create_class, name='create-class'),
+    path('classes/<int:class_id>/', retrieve_class, name='retrieve-class'),
+    path('classes/<int:class_id>/update/',update_class, name='update-class'),
+    path('classes/<int:class_id>/delete/', delete_class, name='delete-class'),
 ]

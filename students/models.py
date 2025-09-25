@@ -4,7 +4,7 @@ from school.models import SchoolProfile
 
 class StudentProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='student_profile')
-    school = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE, related_name='students')
+    school = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE, related_name='students', blank=True, null=True)
     roll_number = models.CharField(max_length=50)
     guardian_name = models.CharField(max_length=255)
     contact_number = models.CharField(max_length=20)

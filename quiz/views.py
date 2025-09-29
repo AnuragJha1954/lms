@@ -272,6 +272,7 @@ def get_quiz_detail_with_questions(request, quiz_id):
     }
 )
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def get_quizzes_for_student(request, student_id):
     try:
         student_profile = StudentProfile.objects.get(id=student_id)
@@ -315,6 +316,104 @@ def get_quizzes_for_student(request, student_id):
 
 
 
+# ---------------- Get All Quizzes ----------------
+@swagger_auto_schema(
+    method='get',
+    operation_summary="Get all quizzes",
+    operation_description="Fetches all quizzes (active and inactive).",
+    responses={200: QuizListSerializer(many=True)}
+)
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_all_quizzes(request):
+    quizzes = Quiz.objects.all()
+    serializer = QuizListSerializer(quizzes, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# ---------------- Update Quiz ----------------
+@swagger_auto_schema(
+    method='put',
+    operation_summary="Update a quiz",
+    operation_description="Updates the quiz details (title, description, quiz_type).",
+    request_body=QuizCreateSerializer,
+    manual_parameters=[
+        openapi.Parameter(
+            'quiz_id',
+            openapi.IN_PATH,
+            type=openapi.TYPE_INTEGER,
+            description="ID of the quiz to update",
+            required=True
+        ),
+    ],
+    responses={
+        200: openapi.Response(
+            description="Quiz updated successfully",
+            examples={"application/json": {"message": "Quiz updated successfully.", "quiz_id": 3}}
+        ),
+        400: "Validation error",
+        404: "Quiz not found"
+    }
+)
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+def update_quiz(request, quiz_id):
+    try:
+        quiz = Quiz.objects.get(id=quiz_id)
+    except Quiz.DoesNotExist:
+        return Response({"error": "Quiz not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    topic = quiz.topic
+    teacher = quiz.teacher
+
+    serializer = QuizCreateSerializer(
+        quiz, data=request.data, context={'topic': topic, 'teacher': teacher}
+    )
+
+    if serializer.is_valid():
+        validated_data = serializer.validated_data
+        quiz.title = validated_data['title']
+        quiz.description = validated_data.get('description', '')
+        quiz.quiz_type = validated_data['quiz_type']
+        quiz.save()
+
+        return Response({"message": "Quiz updated successfully.", "quiz_id": quiz.id}, status=status.HTTP_200_OK)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# ---------------- Delete Quiz ----------------
+@swagger_auto_schema(
+    method='delete',
+    operation_summary="Delete a quiz",
+    operation_description="Deletes the quiz with the given ID.",
+    manual_parameters=[
+        openapi.Parameter(
+            'quiz_id',
+            openapi.IN_PATH,
+            type=openapi.TYPE_INTEGER,
+            description="ID of the quiz to delete",
+            required=True
+        ),
+    ],
+    responses={
+        204: openapi.Response(
+            description="Quiz deleted successfully",
+            examples={"application/json": {"message": "Quiz deleted successfully."}}
+        ),
+        404: "Quiz not found"
+    }
+)
+@api_view(['DELETE'])
+@permission_classes([AllowAny])
+def delete_quiz(request, quiz_id):
+    try:
+        quiz = Quiz.objects.get(id=quiz_id)
+    except Quiz.DoesNotExist:
+        return Response({"error": "Quiz not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    quiz.delete()
+    return Response({"message": "Quiz deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
 
 
 

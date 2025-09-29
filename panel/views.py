@@ -5,6 +5,9 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+from teachers.models import TeacherProfile
+from school.models import SchoolProfile    
+from students.models import StudentProfile
 from v1.models import Subject, Chapter, Topic, Content, ClassModel
 from .serializers import SubjectSerializer, ChapterSerializer, TopicSerializer, ContentSerializer, AssignStudentSerializer, ClassModelSerializer
 
@@ -290,5 +293,110 @@ def delete_class(request, class_id):
 
     cls.delete()
     return Response({"message": "Class deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+
+@swagger_auto_schema(
+    method="get",
+    operation_summary="Get Panel Dashboard",
+    operation_description="Returns dashboard stats for panel with database + hardcoded values",
+    responses={200: "Dashboard data returned successfully"},
+)
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def panel_dashboard(request):
+    # ✅ Extract live counts from DB
+    total_students = StudentProfile.objects.count()
+    total_teachers = TeacherProfile.objects.count()
+    total_schools = SchoolProfile.objects.count()
+
+    # ✅ Hardcoded + calculated response
+    data = {
+        "monthlyEnrollment": [
+            {"month": "Jan", "students": 45, "target": 50},
+            {"month": "Feb", "students": 52, "target": 55},
+            {"month": "Mar", "students": 48, "target": 50},
+            {"month": "Apr", "students": 61, "target": 60},
+            {"month": "May", "students": 55, "target": 58},
+            {"month": "Jun", "students": 67, "target": 65},
+            {"month": "Jul", "students": 72, "target": 70},
+            {"month": "Aug", "students": 89, "target": 85},
+            {"month": "Sep", "students": 95, "target": 90},
+            {"month": "Oct", "students": 78, "target": 80},
+            {"month": "Nov", "students": 82, "target": 85},
+            {"month": "Dec", "students": 91, "target": 90},
+        ],
+        "schoolsComparison": [
+            {"school": "Greenwood High", "students": 1250, "capacity": 1500, "utilization": 83},
+            {"school": "Riverside Academy", "students": 980, "capacity": 1200, "utilization": 82},
+            {"school": "Oakwood International", "students": 750, "capacity": 1000, "utilization": 75},
+            {"school": "Sunset Elementary", "students": 420, "capacity": 600, "utilization": 70},
+            {"school": "Pine Valley School", "students": 680, "capacity": 800, "utilization": 85},
+            {"school": "Maple Grove Academy", "students": 540, "capacity": 700, "utilization": 77},
+        ],
+        "activeUsers": [
+            {"date": "2024-01-01", "students": 2800, "teachers": 180, "parents": 2400},
+            {"date": "2024-01-02", "students": 2850, "teachers": 185, "parents": 2450},
+            {"date": "2024-01-03", "students": 2920, "teachers": 190, "parents": 2500},
+            {"date": "2024-01-04", "students": 2780, "teachers": 175, "parents": 2380},
+            {"date": "2024-01-05", "students": 2950, "teachers": 195, "parents": 2550},
+            {"date": "2024-01-06", "students": 3020, "teachers": 200, "parents": 2600},
+            {"date": "2024-01-07", "students": 3100, "teachers": 205, "parents": 2650},
+        ],
+        "gradeDistribution": [
+            {"grade": "A+", "students": 245, "percentage": 12},
+            {"grade": "A", "students": 420, "percentage": 21},
+            {"grade": "B+", "students": 380, "percentage": 19},
+            {"grade": "B", "students": 350, "percentage": 17},
+            {"grade": "C+", "students": 280, "percentage": 14},
+            {"grade": "C", "students": 220, "percentage": 11},
+            {"grade": "D", "students": 105, "percentage": 5},
+            {"grade": "F", "students": 25, "percentage": 1},
+        ],
+        "attendanceRate": [
+            {"month": "Jan", "rate": 94.5},
+            {"month": "Feb", "rate": 92.8},
+            {"month": "Mar", "rate": 95.2},
+            {"month": "Apr", "rate": 93.7},
+            {"month": "May", "rate": 96.1},
+            {"month": "Jun", "rate": 94.9},
+            {"month": "Jul", "rate": 93.4},
+            {"month": "Aug", "rate": 95.8},
+            {"month": "Sep", "rate": 96.5},
+            {"month": "Oct", "rate": 94.2},
+            {"month": "Nov", "rate": 95.7},
+            {"month": "Dec", "rate": 96.8},
+        ],
+        "coursePopularity": [
+            {"course": "Computer Science", "students": 450, "growth": 15},
+            {"course": "Mathematics", "students": 520, "growth": 8},
+            {"course": "Science", "students": 480, "growth": 12},
+            {"course": "English", "students": 380, "growth": 5},
+            {"course": "Business", "students": 320, "growth": 22},
+            {"course": "Arts & Design", "students": 280, "growth": 18},
+            {"course": "Physical Ed", "students": 420, "growth": 3},
+        ],
+        "summary": {
+            "totalStudents": total_students,
+            "totalTeachers": total_teachers,
+            "totalSchools": total_schools,
+            "averageGPA": 3.4,
+            "enrollmentGrowth": 12.5,
+            "attendanceRate": 95.2,
+            "activeUsers": 7825,
+            "completionRate": 87.3,
+        },
+    }
+    return Response(data)
+
+
+
+
+
+
+
 
 

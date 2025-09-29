@@ -5,7 +5,8 @@ from .views import (
     topic_list_create, topic_detail,
     content_list_create, content_detail,
     assign_students_to_subject,
-    create_class, list_classes, retrieve_class, update_class, delete_class
+    create_class, list_classes, retrieve_class, update_class, delete_class,
+    panel_dashboard
 )
 
 urlpatterns = [
@@ -32,4 +33,7 @@ urlpatterns = [
     path('classes/<int:class_id>/', retrieve_class, name='retrieve-class'),
     path('classes/<int:class_id>/update/',update_class, name='update-class'),
     path('classes/<int:class_id>/delete/', delete_class, name='delete-class'),
+    
+    path("dashboard/", panel_dashboard, name="panel_dashboard"),
+
 ]
